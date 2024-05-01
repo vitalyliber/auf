@@ -8,6 +8,13 @@
       "when": 1714559925403,
       "tag": "0000_mighty_spot",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1714580697060,
+      "tag": "0001_known_patriot",
+      "breakpoints": true
     }
   ]
 }

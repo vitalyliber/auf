@@ -7,7 +7,10 @@ export default async function Home() {
   return (
     <main>
       {result.map((item) => (
-        <div key={item.id}>{item.email}</div>
+        <div key={item.id}>
+          <div >{item.email}</div>
+          <div >{item.timestamp}</div>
+        </div>
       ))}
     </main>
   );

@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { users } from "@/schema";
+import Button from "@/app/_components/button";
 
 export default async function Home() {
   const result = await db.select().from(users);
@@ -8,10 +9,11 @@ export default async function Home() {
     <main>
       {result.map((item) => (
         <div key={item.id}>
-          <div >{item.email}</div>
-          <div >{item.timestamp}</div>
+          <div>{item.email}</div>
+          <div>{item.timestamp}</div>
         </div>
       ))}
+      <Button />
     </main>
   );
 }

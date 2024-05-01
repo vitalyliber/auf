@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1714559925403,
+      "tag": "0000_mighty_spot",
+      "breakpoints": true
+    }
+  ]
+}

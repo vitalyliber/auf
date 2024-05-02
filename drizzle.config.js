@@ -1,8 +1,8 @@
+import databaseCredentials from "@/db/databaseCredentials";
+
 export default {
-  schema: "./schema.js",
+  schema: "./db/schema.mjs",
   out: "./drizzle",
-  driver: "better-sqlite",
-  dbCredentials: {
-    url: "sqlite.db",
-  },
+  driver: "pg",
+  dbCredentials: databaseCredentials,
 };

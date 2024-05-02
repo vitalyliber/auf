@@ -7,14 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:generate": "drizzle-kit generate:sqlite --schema ./schema.js",
-    "db:migrate": "node migrate.mjs",
-    "db:studio": "npx drizzle-kit studio"
+    "db:generate": "drizzle-kit generate:pg",
+    "db:migrate": "node --env-file=.env db/migrate.mjs",
+    "db:studio": "npx drizzle-kit studio",
+    "db:drop": "dropdb -U postgres perdoor_dev"
   },
   "dependencies": {
     "better-sqlite3": "^9.6.0",
     "drizzle-orm": "^0.30.9",
     "next": "14.2.3",
+    "pg": "^8.11.5",
+    "pg-connection-string": "^2.6.4",
     "react": "^18",
     "react-dom": "^18"
   },

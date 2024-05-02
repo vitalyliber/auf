@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:generate": "drizzle-kit generate:pg",
+    "db:gen": "drizzle-kit generate:pg",
     "db:migrate": "node --env-file=.env db/migrate.mjs",
     "db:studio": "npx drizzle-kit studio",
     "db:drop": "dropdb -U postgres perdoor_dev"

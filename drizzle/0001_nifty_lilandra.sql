@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD CONSTRAINT "door_user" UNIQUE("email","door_id");

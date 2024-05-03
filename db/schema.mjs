@@ -11,7 +11,7 @@ import { relations } from "drizzle-orm";
 export const doors = pgTable("doors", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }).default(""),
-  created_at: timestamp("created_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export const doorsRelations = relations(doors, ({ many }) => ({
@@ -22,7 +22,7 @@ export const users = pgTable(
   "users",
   {
     id: serial("id").primaryKey(),
-    created_at: timestamp("created_at").notNull().defaultNow(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
     email: varchar("email", { length: 256 }).notNull(),
     doorId: integer("door_id").notNull(),
   },
@@ -41,8 +41,8 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 
 export const devices = pgTable("devices", {
   id: serial("id").primaryKey(),
-  created_at: timestamp("created_at").notNull().defaultNow(),
-  online_at: timestamp("online_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  onlineAt: timestamp("online_at").notNull().defaultNow(),
   userId: integer("user_id").notNull(),
   userAgent: varchar("user_agent").notNull(),
 });

@@ -15,6 +15,13 @@
       "when": 1714657187959,
       "tag": "0001_nifty_lilandra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1714740359052,
+      "tag": "0002_rapid_victor_mancha",
+      "breakpoints": true
     }
   ]
 }

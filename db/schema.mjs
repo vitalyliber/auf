@@ -31,9 +31,25 @@ export const users = pgTable(
   }),
 );
 
-export const usersRelations = relations(users, ({ one }) => ({
+export const usersRelations = relations(users, ({ one, many }) => ({
   door: one(doors, {
     fields: [users.doorId],
     references: [doors.id],
+  }),
+  devices: many(devices),
+}));
+
+export const devices = pgTable("devices", {
+  id: serial("id").primaryKey(),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  online_at: timestamp("online_at").notNull().defaultNow(),
+  userId: integer("user_id").notNull(),
+  userAgent: varchar("user_agent").notNull(),
+});
+
+export const devicesRelations = relations(devices, ({ one }) => ({
+  user: one(users, {
+    fields: [devices.userId],
+    references: [users.id],
   }),
 }));

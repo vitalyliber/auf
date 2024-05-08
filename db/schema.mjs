@@ -4,7 +4,7 @@ import {
   serial,
   varchar,
   integer,
-  unique,
+  unique, boolean,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -25,6 +25,7 @@ export const users = pgTable(
     createdAt: timestamp("created_at").notNull().defaultNow(),
     email: varchar("email", { length: 256 }).notNull(),
     doorId: integer("door_id").notNull(),
+    confirmed: boolean("confirmed").default(false)
   },
   (t) => ({
     unique: unique("door_user").on(t.email, t.doorId),

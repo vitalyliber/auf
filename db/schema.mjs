@@ -10,7 +10,8 @@ import { relations } from "drizzle-orm";
 
 export const doors = pgTable("doors", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: 256 }).default(""),
+  name: varchar("name", { length: 256 }).notNull(),
+  domain: varchar("domain", { length: 256 }).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
@@ -46,6 +47,7 @@ export const devices = pgTable("devices", {
   onlineAt: timestamp("online_at").notNull().defaultNow(),
   userId: integer("user_id").notNull(),
   userAgent: varchar("user_agent").notNull(),
+  token: varchar("token").notNull(),
 });
 
 export const devicesRelations = relations(devices, ({ one }) => ({

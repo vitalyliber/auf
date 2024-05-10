@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         {children}
-        <Toaster />
+        <Toaster toastOptions={{ duration: 8000 }} />
       </body>
     </html>
   );

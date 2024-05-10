@@ -83,6 +83,7 @@ export async function confirmationAction(code, email) {
     // Call this code after the redirect
     // const JWT = await getUserJWTByEmail(email);
     // cookiesStore.set("token", JWT, { maxAge: 31536000 });
+    return { status: "success", title: "You've successfully authenticated" };
   } else {
     return { status: "error", title: "Incorrect verification code" };
   }

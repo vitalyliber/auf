@@ -1,7 +1,7 @@
 import { db } from "@/db/db.mjs";
 import { eq } from "drizzle-orm";
 import { doors } from "@/db/schema.mjs";
-import Form from "@/app/login/[slug]/_components/form";
+import Form from "@/app/(form)/[slug]/_components/form";
 
 export default async function LoginPage({ params }) {
   const door = await db.query.doors.findFirst({

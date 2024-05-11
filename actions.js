@@ -13,7 +13,7 @@ export async function addRecord() {
   revalidatePath("/");
 }
 
-export async function getOrCreateUser(email, doorName = "main") {
+export async function getOrCreateUser(email, doorName = "auf") {
   const door = await db.query.doors.findFirst({
     where: eq(doors.name, doorName),
   });

@@ -1,5 +1,5 @@
 import { db } from "@/db/db.mjs";
-import Button from "@/app/_components/button";
+import Button from "@/app/(landing)/_components/button";
 
 export default async function Dashboard() {
   const users = await db.query.users.findMany({

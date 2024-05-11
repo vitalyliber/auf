@@ -8,7 +8,7 @@ import useRunOnce from "@/hooks/useRunOnce";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import {confirmationAction, sendAuthCodeAction} from "@/actions";
-import LoginIssues from "@/app/login/[slug]/_components/login-issues";
+import LoginIssues from "@/app/(form)/[slug]/_components/login-issues";
 
 export default function Form() {
   const router = useRouter();

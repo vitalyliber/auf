@@ -1,10 +1,8 @@
 {
-  "id": "3f034383-97b1-4c2c-a8a5-5d21bde34f67",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "doors": {
+    "public.doors": {
       "name": "doors",
       "schema": "",
       "columns": {
@@ -34,7 +32,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -73,8 +71,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "3f034383-97b1-4c2c-a8a5-5d21bde34f67",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }

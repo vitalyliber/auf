@@ -1,10 +1,8 @@
 {
-  "id": "4bda9c60-309c-4d1a-ac5a-371c1f8a554f",
-  "prevId": "3f034383-97b1-4c2c-a8a5-5d21bde34f67",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "doors": {
+    "public.doors": {
       "name": "doors",
       "schema": "",
       "columns": {
@@ -34,7 +32,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -70,11 +68,11 @@
       "uniqueConstraints": {
         "door_user": {
           "name": "door_user",
-          "nullsNotDistinct": false,
           "columns": [
             "email",
             "door_id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
@@ -82,8 +80,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "4bda9c60-309c-4d1a-ac5a-371c1f8a554f",
+  "prevId": "3f034383-97b1-4c2c-a8a5-5d21bde34f67"
 }

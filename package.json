@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:gen": "drizzle-kit generate:pg",
+    "db:gen": "drizzle-kit generate",
     "db:migrate": "node --env-file=.env db/migrate.mjs",
     "db:studio": "npx drizzle-kit studio",
     "db:drop": "dropdb -U postgres perdoor_dev"
@@ -15,7 +15,7 @@
   "dependencies": {
     "better-sqlite3": "^9.6.0",
     "classnames": "^2.5.1",
-    "drizzle-orm": "^0.30.9",
+    "drizzle-orm": "^0.30.10",
     "email-validator": "^2.0.4",
     "jose": "^5.2.4",
     "next": "14.2.3",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
-    "drizzle-kit": "^0.20.17",
+    "drizzle-kit": "^0.21.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",

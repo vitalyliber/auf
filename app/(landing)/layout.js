@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "@/app/globals.css";
-import Auth_btn from "@/app/(landing)/_components/auth_btn";
+import AuthBtn from "@/app/(landing)/_components/auth_btn";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,8 +33,8 @@ export default function RootLayout({ children }) {
             </nav>
           </div>
           <div className="flex space-x-5 justify-end items-end md:items-center">
-            <Auth_btn
-              appName="main"
+            <AuthBtn
+              appName="auf"
               SignInComponent={
                 <div className="btn hidden md:block">Sign in</div>
               }

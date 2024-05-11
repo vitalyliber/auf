@@ -24,10 +24,10 @@ export default function Auth_btn({
     // Also, set the uniq ID to the auth link
   }, []);
 
-  const handleLogout = () => {
-    logoutAction();
+  const handleLogout = async () => {
+    await logoutAction();
 
-    router.push("/");
+    window.location.reload()
   };
 
   useEffect(() => {

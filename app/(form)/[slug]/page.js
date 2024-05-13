@@ -15,7 +15,7 @@ export default async function LoginPage({ params }) {
           {door.name}
         </h1>
 
-        <Form />
+        <Form appName={door.name} />
       </div>
     </div>
   );

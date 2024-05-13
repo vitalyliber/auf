@@ -16,7 +16,10 @@ export default async function Dashboard() {
           <div>{item.createdAt.toString()}</div>
           <div>
             {item.devices.map((device) => (
-              <div key={device.id}>{device.userAgent}</div>
+              <div key={device.id}>
+                {device.userAgent.browser.name}{" "}
+                {device.userAgent.browser.version}
+              </div>
             ))}
           </div>
         </div>

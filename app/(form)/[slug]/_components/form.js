@@ -7,10 +7,10 @@ import toast from "react-hot-toast";
 import useRunOnce from "@/hooks/useRunOnce";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import {confirmationAction, sendAuthCodeAction} from "@/actions";
+import { confirmationAction, sendAuthCodeAction } from "@/actions";
 import LoginIssues from "@/app/(form)/[slug]/_components/login-issues";
 
-export default function Form() {
+export default function Form({ appName }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState(null);
@@ -28,7 +28,7 @@ export default function Form() {
     try {
       setIsLoading(true);
       const formEmail = formDataEmail;
-      const res = await sendAuthCodeAction(formEmail);
+      const res = await sendAuthCodeAction(formEmail, appName);
       if (res.status === "success") {
         setEmail(formEmail);
       }
@@ -38,16 +38,16 @@ export default function Form() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [appName]);
 
   const handleConfirmation = useCallback(async () => {
-    const res = await confirmationAction(inputCode, email);
+    const res = await confirmationAction(inputCode, email, appName);
     toast[res.status](res.title);
     if (res.status === "success") {
-      router.push(searchParams.get("href") || "/dashboard");
+      router.push(searchParams.get("href") || `/?auf_token=${res.tmpToken}`);
       router.refresh();
     }
-  }, [inputCode, router, toast, email, searchParams]);
+  }, [inputCode, router, toast, email, searchParams, appName]);
 
   useRunOnce(() => {
     if (searchParams.get("href")) {
@@ -70,18 +70,16 @@ export default function Form() {
       <h2 className="mt-4">
         {email ? (
           <span>
-            Please enter the <span className="font-bold">confirmation code</span>,
-            that we sent to you by email {email}
+            Please enter the{" "}
+            <span className="font-bold">confirmation code</span>, that we sent
+            to you by email {email}
           </span>
         ) : (
           "Enter your email address"
         )}
       </h2>
 
-      <form
-        className="mt-4"
-        action={email ? handleConfirmation : handleLogin}
-      >
+      <form className="mt-4" action={email ? handleConfirmation : handleLogin}>
         <div className="grid grid-cols-1 gap-4">
           {!email && (
             <label className="block">

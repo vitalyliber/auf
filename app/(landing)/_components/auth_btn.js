@@ -6,7 +6,7 @@ import {
   logoutAction,
 } from "@/app/(landing)/_components/auth_actions";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import getUserJWTByTmpToken from "@/actions";
 
 export default function Auth_btn({
@@ -14,12 +14,12 @@ export default function Auth_btn({
   SignOutComponent,
   appName,
 }) {
+  const pathname = usePathname();
   const [authenticated, setAuthenticated] = useState(false);
   const searchParams = useSearchParams();
 
   const getAuthToken = useCallback(async () => {
     const token = await getAuthTokenAction();
-    console.log(token)
     setAuthenticated(!!token);
   }, []);
 
@@ -40,20 +40,20 @@ export default function Auth_btn({
   }, [appName]);
 
   const setPersistentToken = useCallback(async () => {
-    const token = searchParams.get("auf_token");
-    // @TODO make a http request to get the JWT instead of calling the the server action
-    await getUserJWTByTmpToken(token);
-    function removeQueryParam(url, paramToRemove) {
-      const urlObject = new URL(url);
-      urlObject.searchParams.delete(paramToRemove);
-      return urlObject.toString();
+    const tmpTokenName = "auf_token";
+    const token = searchParams.get(tmpTokenName);
+    if (token) {
+      // @TODO make a http request to get the JWT instead of calling the the server action
+      await getUserJWTByTmpToken(token);
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete(tmpTokenName);
+      window.location.href = pathname + "?" + params.toString();
     }
-    removeQueryParam(window.location.href);
-  }, [searchParams]);
+  }, [searchParams, pathname]);
 
   useEffect(() => {
     setPersistentToken();
-  }, [searchParams]);
+  }, [searchParams, pathname]);
 
   return (
     <>

@@ -19,30 +19,32 @@ export default function Form({ appName }) {
   const emailInput = useRef();
   const codeInput = useRef();
 
-  const handleLogin = useCallback(async (formData) => {
-    const formDataEmail = formData.get("email");
-    if (!EmailValidator.validate(formDataEmail)) {
-      toast.error("Please enter a valid email");
-      return;
-    }
-    try {
-      setIsLoading(true);
-      const formEmail = formDataEmail;
-      const res = await sendAuthCodeAction(formEmail, appName);
-      if (res.status === "success") {
-        setEmail(formEmail);
+  const handleLogin = useCallback(
+    async (formData) => {
+      const formDataEmail = formData.get("email");
+      if (!EmailValidator.validate(formDataEmail)) {
+        toast.error("Please enter a valid email");
+        return;
       }
-      toast[res.status](res.title);
-      setTimeout(() => codeInput.current?.focus(), 500);
-    } catch {
-    } finally {
-      setIsLoading(false);
-    }
-  }, [appName]);
+      try {
+        setIsLoading(true);
+        const formEmail = formDataEmail;
+        const res = await sendAuthCodeAction(formEmail, appName);
+        if (res.status === "success") {
+          setEmail(formEmail);
+        }
+        toast[res.status](res.title);
+        setTimeout(() => codeInput.current?.focus(), 500);
+      } catch {
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [appName],
+  );
 
   const handleConfirmation = useCallback(async () => {
     const res = await confirmationAction(inputCode, email, appName);
-    toast[res.status](res.title);
     if (res.status === "success") {
       router.push(searchParams.get("href") || `/?auf_token=${res.tmpToken}`);
       router.refresh();

@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         {children}
-        <Toaster />
+        <Toaster toastOptions={{ duration: 8000 }} />
       </body>
     </html>
   );

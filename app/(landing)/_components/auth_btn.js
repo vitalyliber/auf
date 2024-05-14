@@ -7,7 +7,6 @@ import {
 } from "@/app/(landing)/_components/auth_actions";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import getUserJWTByTmpToken from "@/actions";
 
 export default function Auth_btn({
   SignInComponent,
@@ -44,7 +43,7 @@ export default function Auth_btn({
     const token = searchParams.get(tmpTokenName);
     if (token) {
       // @TODO make a http request to get the JWT instead of calling the the server action
-      await getUserJWTByTmpToken(token);
+      await fetch(`/api/tokens?token=${token}`, { method: "POST" });
       const params = new URLSearchParams(searchParams.toString());
       params.delete(tmpTokenName);
       window.location.href = pathname + "?" + params.toString();

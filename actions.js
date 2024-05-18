@@ -111,13 +111,12 @@ export default async function getUserJWTByTmpToken(tmpToken) {
 
         const jwtToken = await createJWT(payload);
 
-        const cookiesStore = cookies();
-        cookiesStore.set("auth_token", jwtToken, { maxAge: 31536000 });
-
         await db
           .update(devices)
           .set({ token: `burned_${device.token}` })
           .where(eq(devices.id, device.id));
+
+        return jwtToken
       }
     }
   } catch (e) {

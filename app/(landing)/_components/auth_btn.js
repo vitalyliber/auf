@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   getAuthTokenAction,
-  getJwtTokenFromCookies,
   logoutAction,
   setJwtTokenToCookies,
 } from "@/app/(landing)/_components/auth_actions";
@@ -16,16 +15,15 @@ export default function Auth_btn({
   appName,
 }) {
   const pathname = usePathname();
-  const [authenticated, setAuthenticated] = useState(false);
+  const [jwtToken, setJwtToken] = useState(false);
   const searchParams = useSearchParams();
 
   const getAuthToken = useCallback(async () => {
     const token = await getAuthTokenAction();
-    setAuthenticated(!!token);
+    setJwtToken(token);
   }, []);
 
   const handleLogout = async () => {
-    const jwtToken = await getJwtTokenFromCookies();
     await fetch(`/api/tokens?token=${jwtToken}`, { method: "DELETE" });
     await logoutAction();
 
@@ -67,7 +65,7 @@ export default function Auth_btn({
 
   return (
     <>
-      {authenticated ? (
+      {jwtToken ? (
         <div onClick={handleLogout}>{SignOutComponent}</div>
       ) : (
         <Link href={appUrl}>{SignInComponent}</Link>

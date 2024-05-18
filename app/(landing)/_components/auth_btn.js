@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   getAuthTokenAction,
+  getJwtTokenFromCookies,
   logoutAction,
   setJwtTokenToCookies,
 } from "@/app/(landing)/_components/auth_actions";
@@ -24,6 +25,8 @@ export default function Auth_btn({
   }, []);
 
   const handleLogout = async () => {
+    const jwtToken = await getJwtTokenFromCookies();
+    await fetch(`/api/tokens?token=${jwtToken}`, { method: "DELETE" });
     await logoutAction();
 
     window.location.reload();
@@ -47,9 +50,9 @@ export default function Auth_btn({
         method: "POST",
       });
       if (response.status === 200) {
-        const respJSON = await response.json()
+        const respJSON = await response.json();
         if (respJSON?.token) {
-          await setJwtTokenToCookies(respJSON?.token)
+          await setJwtTokenToCookies(respJSON?.token);
           const params = new URLSearchParams(searchParams.toString());
           params.delete(tmpTokenName);
           window.location.href = pathname + "?" + params.toString();

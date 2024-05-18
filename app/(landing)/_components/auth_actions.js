@@ -17,5 +17,10 @@ export async function logoutAction() {
 
 export async function setJwtTokenToCookies(token) {
   const cookiesStore = cookies();
-  await cookiesStore.set("auth_token", token, { maxAge: 31536000 });
+  await cookiesStore.set(tokenName, token, { maxAge: 31536000 });
+}
+
+export async function getJwtTokenFromCookies() {
+  const cookiesStore = cookies();
+  return cookiesStore.get(tokenName)?.value;
 }

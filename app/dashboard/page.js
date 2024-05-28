@@ -22,17 +22,17 @@ export default async function Dashboard() {
           className="rounded border-gray-300 py-3 min-w-96 mb-8"
         />
 
-        <div class="shadow-sm overflow-hidden my-8">
-          <table class="border-collapse table-auto w-full text-sm">
+        <div className="shadow-sm overflow-hidden my-8">
+          <table className="border-collapse table-auto w-full text-sm">
             <thead>
               <tr>
-                <th class="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                <th className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
                   Email
                 </th>
-                <th class="border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                <th className="border-b dark:border-slate-600 font-medium p-4 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
                   Created at
                 </th>
-                <th class="border-b dark:border-slate-600 font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                <th className="border-b dark:border-slate-600 font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
                   Devices
                 </th>
               </tr>

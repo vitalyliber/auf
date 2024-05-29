@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { appUrl } from "@/app/(landing)/_components/constants";
 import {
   getAuthTokenAction,
@@ -57,11 +57,11 @@ export default function Auth_btn({
         }
       }
     }
-  }, [searchParams, pathname, ]);
+  }, [searchParams, pathname, appName]);
 
   useEffect(() => {
     setPersistentToken();
-  }, [searchParams, pathname]);
+  }, [searchParams, pathname, setPersistentToken]);
 
   return (
     <>

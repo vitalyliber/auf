@@ -49,7 +49,7 @@ export default function Form({ appName }) {
       router.push(`/?auf_token=${res.tmpToken}`);
       router.refresh();
     }
-  }, [inputCode, router, toast, email, searchParams, appName]);
+  }, [inputCode, router, email, appName]);
 
   useRunOnce(() => {
     if (searchParams.get("href")) {

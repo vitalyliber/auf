@@ -1,11 +1,11 @@
 import Navigation from "@/app/dashboard/_components/navigation";
-import UsersList from "@/app/dashboard/_components/users_list";
+import AppsList from "@/app/dashboard/_components/apps_list";
 
 export default async function Dashboard() {
   return (
     <main className="flex space-x-10 px-16 py-7">
       <Navigation activeCategory="apps" />
-      <UsersList />
+      <AppsList />
     </main>
   );
 }

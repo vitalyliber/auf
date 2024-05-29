@@ -11,13 +11,12 @@ const Li = ({ children, active, link }) => (
   </li>
 );
 
-export default function Navigation({ activeCategory }) {
+export default async function Navigation({ activeCategory }) {
+
+
   return (
     <ul className="w-72 space-y-4 text-xl">
       <Li active={activeCategory} link="/">apps</Li>
-      <Li active={activeCategory} link="users/auf">
-        users
-      </Li>
       <Li active={activeCategory}>settings</Li>
     </ul>
   );

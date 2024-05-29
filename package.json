@@ -15,6 +15,7 @@
   "dependencies": {
     "better-sqlite3": "^9.6.0",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "drizzle-orm": "^0.30.10",
     "email-validator": "^2.0.4",
     "jose": "^5.2.4",
@@ -23,7 +24,8 @@
     "pg-connection-string": "^2.6.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",

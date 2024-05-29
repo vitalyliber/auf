@@ -3,8 +3,8 @@ import UsersList from "@/app/dashboard/_components/users_list";
 
 export default async function Dashboard() {
   return (
-    <main className="flex space-x-10 px-16 py-7">
-      <Navigation activeCategory="apps" />
+    <main className="flex space-x-10  px-16 py-7">
+      <Navigation activeCategory="users" />
       <UsersList />
     </main>
   );

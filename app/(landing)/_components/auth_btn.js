@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { appUrl } from "@/app/(landing)/_components/constants";
 import {
   getAuthTokenAction,
   logoutAction,
@@ -27,18 +28,12 @@ export default function Auth_btn({
     await fetch(`/api/tokens?token=${jwtToken}`, { method: "DELETE" });
     await logoutAction();
 
-    window.location.reload();
+    window.location.href = "/";
   };
 
   useEffect(() => {
     getAuthToken().catch();
   }, [getAuthToken]);
-
-  const appUrl = useMemo(() => {
-    return process.env.NODE_ENV === "development"
-      ? `http://localhost:3000/${appName}`
-      : `https://auf.casply.com/${appName}`;
-  }, [appName]);
 
   const setPersistentToken = useCallback(async () => {
     const tmpTokenName = "auf_token";
@@ -53,11 +48,16 @@ export default function Auth_btn({
           await setJwtTokenToCookies(respJSON?.token);
           const params = new URLSearchParams(searchParams.toString());
           params.delete(tmpTokenName);
-          window.location.href = pathname + "?" + params.toString();
+          console.log("pathname", pathname)
+          if (appName === "auf") {
+            window.location.href = "/dashboard" + "?" + params.toString();
+          } else {
+            window.location.href = pathname + "?" + params.toString();
+          }
         }
       }
     }
-  }, [searchParams, pathname]);
+  }, [searchParams, pathname, ]);
 
   useEffect(() => {
     setPersistentToken();
@@ -68,7 +68,7 @@ export default function Auth_btn({
       {jwtToken ? (
         <div onClick={handleLogout}>{SignOutComponent}</div>
       ) : (
-        <Link href={appUrl}>{SignInComponent}</Link>
+        <Link href={`${appUrl}/${appName}`}>{SignInComponent}</Link>
       )}
     </>
   );

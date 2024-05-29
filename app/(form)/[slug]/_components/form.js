@@ -46,7 +46,7 @@ export default function Form({ appName }) {
   const handleConfirmation = useCallback(async () => {
     const res = await confirmationAction(inputCode, email, appName);
     if (res.status === "success") {
-      router.push(searchParams.get("href") || `/?auf_token=${res.tmpToken}`);
+      router.push(`/?auf_token=${res.tmpToken}`);
       router.refresh();
     }
   }, [inputCode, router, toast, email, searchParams, appName]);

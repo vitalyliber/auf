@@ -3,9 +3,17 @@ import { db } from "@/db/db.mjs";
 import Th from "@/app/dashboard/_components/th";
 import Td from "@/app/dashboard/_components/td";
 import PageTitle from "@/app/dashboard/_components/page_title";
+import { eq } from "drizzle-orm";
+import { users, doors } from "@/db/schema.mjs";
 
-export default async function UsersList() {
-  const users = await db.query.users.findMany({
+export default async function UsersList({ doorName }) {
+  const door = await db.query.doors.findFirst({
+    // TODO filter here by ownerId
+    where: eq(doors.name, doorName),
+  });
+
+  const usersList = await db.query.users.findMany({
+    where: eq(users.doorId, door.id),
     with: {
       devices: true,
     },
@@ -31,12 +39,12 @@ export default async function UsersList() {
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-slate-800">
-            {users.map((item) => (
+            {usersList.map((item) => (
               <tr key={item.id}>
                 <Td>{item.email}</Td>
                 <Td>Auf.</Td>
                 <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
-                <Td>{fmtDateWithTime(new Date)}</Td>
+                <Td>{fmtDateWithTime(new Date())}</Td>
                 <Td>{item.devices.length}</Td>
               </tr>
             ))}

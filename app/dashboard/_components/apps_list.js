@@ -6,11 +6,14 @@ import PageTitle from "@/app/dashboard/_components/page_title";
 import Link from "next/link";
 
 export default async function AppsList() {
-  const users = await db.query.doors.findMany({
+  const doorsList = await db.query.doors.findMany({
+    // TODO Filter here by ownerId
     with: {
       users: true,
     },
   });
+
+  // TODO If the doors' list is empty, show the app form
 
   return (
     <div className="w-full">
@@ -30,7 +33,7 @@ export default async function AppsList() {
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-slate-800">
-            {users.map((item) => (
+            {doorsList.map((item) => (
               <tr key={item.id}>
                 <Td className="font-semibold capitalize underline underline-offset-4">
                   <Link href={`/dashboard/apps/${item.name}/users`}>{item.name}</Link>

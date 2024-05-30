@@ -1,8 +1,7 @@
 "use server";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-
-const tokenName = "auth_token";
+import { tokenName } from "@/app/(landing)/_components/constants";
 
 export async function getAuthTokenAction() {
   const cookiesStore = cookies();

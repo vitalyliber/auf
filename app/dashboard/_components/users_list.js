@@ -3,13 +3,15 @@ import { db } from "@/db/db.mjs";
 import Th from "@/app/dashboard/_components/th";
 import Td from "@/app/dashboard/_components/td";
 import PageTitle from "@/app/dashboard/_components/page_title";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { users, doors } from "@/db/schema.mjs";
+import { fetchCurrentUser } from "@/actions";
 
 export default async function UsersList({ doorName }) {
+  const currentUser = await fetchCurrentUser();
+
   const door = await db.query.doors.findFirst({
-    // TODO filter here by ownerId
-    where: eq(doors.name, doorName),
+    where: and(eq(doors.name, doorName), eq(doors.userId, currentUser.id)),
   });
 
   const usersList = await db.query.users.findMany({

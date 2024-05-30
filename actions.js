@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { createJWT, verifyJWT } from "@/utils/jwt";
 import isDev from "@/utils/isDev";
+import { tokenName } from "@/app/(landing)/_components/constants";
 
 export async function addRecord() {
   await db.insert(users).values({ email: "Andrew", doorId: 1 });
@@ -116,10 +117,16 @@ export default async function getUserJWTByTmpToken(tmpToken) {
           .set({ token: `burned_${device.token}` })
           .where(eq(devices.id, device.id));
 
-        return jwtToken
+        return jwtToken;
       }
     }
   } catch (e) {
     console.log("error", e.response.data);
   }
+}
+
+export async function fetchCurrentUser() {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get(tokenName)?.value;
+  return verifyJWT(token);
 }

@@ -15,10 +15,15 @@ export const doors = pgTable("doors", {
   name: varchar("name", { length: 256 }).notNull(),
   domain: varchar("domain", { length: 256 }).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+  userId: integer('user_id').references(() => users.id),
 });
 
-export const doorsRelations = relations(doors, ({ many }) => ({
+export const doorsRelations = relations(doors, ({ many, one }) => ({
   users: many(users),
+  user: one(users, {
+    fields: [doors.userId],
+    references: [users.id],
+  }),
 }));
 
 export const users = pgTable(

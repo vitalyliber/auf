@@ -4,10 +4,14 @@ import Th from "@/app/dashboard/_components/th";
 import Td from "@/app/dashboard/_components/td";
 import PageTitle from "@/app/dashboard/_components/page_title";
 import Link from "next/link";
+import { eq } from "drizzle-orm";
+import { doors } from "@/db/schema.mjs";
+import { fetchCurrentUser } from "@/actions";
 
 export default async function AppsList() {
+  const currentUser = await fetchCurrentUser();
   const doorsList = await db.query.doors.findMany({
-    // TODO Filter here by ownerId
+    where: eq(doors.userId, currentUser.id),
     with: {
       users: true,
     },
@@ -36,7 +40,9 @@ export default async function AppsList() {
             {doorsList.map((item) => (
               <tr key={item.id}>
                 <Td className="font-semibold capitalize underline underline-offset-4">
-                  <Link href={`/dashboard/apps/${item.name}/users`}>{item.name}</Link>
+                  <Link href={`/dashboard/apps/${item.name}/users`}>
+                    {item.name}
+                  </Link>
                 </Td>
                 <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
                 <Td>{item.users.length}</Td>

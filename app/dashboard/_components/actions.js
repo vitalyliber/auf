@@ -1,8 +1,13 @@
 "use server";
 
+import { z } from "zod";
+
 import { db } from "@/db/db.mjs";
 import { eq } from "drizzle-orm";
 import { doors } from "@/db/schema.mjs";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { fetchCurrentUser } from "@/actions";
 
 export async function createApp(_, formData) {
   const name = formData.get("name");
@@ -18,5 +23,22 @@ export async function createApp(_, formData) {
     };
   }
 
-  return "";
+  const urlRegex = /^https:\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
+
+  const urlSchema = z.string().refine((url) => urlRegex.test(url), {
+    message: "Invalid domain URL format",
+  });
+  const parsed = urlSchema.safeParse(domain);
+  if (!parsed.success) {
+    return { message: parsed.error.errors[0].message };
+  }
+
+  try {
+    const currentUser = await fetchCurrentUser();
+    await db.insert(doors).values({ name, domain, userId: currentUser.id });
+    revalidatePath("/dashboard");
+  } catch (e) {
+    return { message: "Something went wrong. Please try again later" };
+  }
+  redirect("/dashboard");
 }

@@ -3,31 +3,53 @@ import { db } from "@/db/db.mjs";
 import Th from "@/app/dashboard/_components/th";
 import Td from "@/app/dashboard/_components/td";
 import PageTitle from "@/app/dashboard/_components/page_title";
-import { and, eq } from "drizzle-orm";
+import { and, eq, ilike } from "drizzle-orm";
 import { users, doors } from "@/db/schema.mjs";
 import { fetchCurrentUser } from "@/actions";
+import { redirect } from "next/navigation";
 
-export default async function UsersList({ doorName }) {
+export default async function UsersList({ doorName, query }) {
   const currentUser = await fetchCurrentUser();
 
   const door = await db.query.doors.findFirst({
     where: and(eq(doors.name, doorName), eq(doors.userId, currentUser.id)),
   });
 
+  let filters = [eq(users.doorId, door.id)];
+  if (query) {
+    filters = [...filters, [ilike(users.email, `%${query}%`)]];
+  }
+
   const usersList = await db.query.users.findMany({
-    where: eq(users.doorId, door.id),
+    where: and(...filters),
     with: {
       devices: true,
     },
   });
 
+  async function searchAction(formData) {
+    "use server";
+
+    const search = formData.get("search");
+    let queryString = "";
+
+    if (search) {
+      queryString = `?query=${encodeURIComponent(search)}`;
+    }
+
+    redirect(`/dashboard/apps/${doorName}/users${queryString}`);
+  }
+
   return (
     <div className="w-full">
       <PageTitle title="Users" />
-      <input
-        placeholder="Search"
-        className="rounded border-gray-300 py-3 min-w-96 mb-8"
-      />
+      <form action={searchAction} method="GET">
+        <input
+          name="search"
+          placeholder="Search"
+          className="rounded border-gray-300 py-3 min-w-96 mb-8"
+        />
+      </form>
 
       <div className="shadow-sm overflow-hidden my-8 w-full">
         <table className="border-collapse table-auto w-full text-sm">

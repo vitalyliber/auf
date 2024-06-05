@@ -8,6 +8,7 @@ import { users, doors } from "@/db/schema.mjs";
 import { fetchCurrentUser } from "@/actions";
 import { redirect } from "next/navigation";
 import NoResults from "@/app/dashboard/_components/no_results";
+import SearchInput from "@/app/dashboard/_components/search_input";
 
 export default async function UsersList({ doorName, query }) {
   const currentUser = await fetchCurrentUser();
@@ -45,12 +46,7 @@ export default async function UsersList({ doorName, query }) {
     <div className="w-full">
       <PageTitle title="Users" />
       <form action={searchAction} method="GET">
-        <input
-          autoComplete="off"
-          name="search"
-          placeholder="Search"
-          className="rounded border-gray-300 py-3 min-w-96 mb-8"
-        />
+        <SearchInput query={query}/>
       </form>
 
       {usersList.length > 0 || (!!query && <NoResults />)}

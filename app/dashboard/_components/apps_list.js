@@ -9,6 +9,7 @@ import { doors } from "@/db/schema.mjs";
 import { fetchCurrentUser } from "@/actions";
 import { redirect } from "next/navigation";
 import NoResults from "@/app/dashboard/_components/no_results";
+import SearchInput from "@/app/dashboard/_components/search_input";
 
 export default async function AppsList({ query }) {
   const currentUser = await fetchCurrentUser();
@@ -48,12 +49,7 @@ export default async function AppsList({ query }) {
         </div>
       </div>
       <form action={searchAction}>
-        <input
-          autoComplete="off"
-          placeholder="Search"
-          name="search"
-          className="rounded border-gray-300 py-3 min-w-96 mb-8"
-        />
+        <SearchInput query={query}/>
       </form>
       {doorsList.length === 0 && !query && (
         <div className="flex justify-center items-center flex-col bg-gray-50 py-20 rounded-lg">

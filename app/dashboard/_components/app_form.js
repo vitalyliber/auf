@@ -15,7 +15,7 @@ export default function AppForm() {
 
   return (
     <div className="w-full">
-      <PageTitle title="Page" />
+      <PageTitle title="Create a new App" />
 
       <form action={formAction}>
         <div className="space-y-4">

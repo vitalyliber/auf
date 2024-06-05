@@ -33,6 +33,18 @@ export async function createApp(_, formData) {
     return { message: parsed.error.errors[0].message };
   }
 
+  const latinLowercaseRegex = /^[a-z]+$/;
+
+  const latinLowercaseSchema = z.string().regex(latinLowercaseRegex, {
+    message:
+      "Should contain only lowercase Latin characters without special symbols",
+  });
+
+  const latinLowercaseSchemaParsed = latinLowercaseSchema.safeParse(name);
+  if (!latinLowercaseSchemaParsed.success) {
+    return { message: latinLowercaseSchemaParsed.error.errors[0].message };
+  }
+
   try {
     const currentUser = await fetchCurrentUser();
     await db.insert(doors).values({ name, domain, userId: currentUser.id });

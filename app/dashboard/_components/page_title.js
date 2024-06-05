@@ -1,3 +1,5 @@
-export default function PageTitle({ title }) {
-  return <h1 className="text-4xl mb-12">{title}</h1>;
+import cn from "@/app/(landing)/_components/cn";
+
+export default function PageTitle({ title, classNames }) {
+  return <h1 className={cn("text-4xl mb-12 inline-block", classNames)}>{title}</h1>;
 }

@@ -17,16 +17,22 @@ export default async function AppsList() {
     },
   });
 
-  // TODO If the doors' list is empty, show the app form
-
   return (
     <div className="w-full">
-      <PageTitle title="Apps" />
+      <div className="flex justify-between items-center mb-12">
+        <PageTitle classNames="mb-0" title="Apps" />
+        <div>
+          <Link className="btn-black inline" href="/dashboard/connect">
+            Add
+          </Link>
+        </div>
+
+      </div>
       {doorsList.length === 0 && (
         <div className="flex justify-center items-center flex-col bg-gray-50 py-20 rounded-lg">
-          <div>
-            <Link className="btn-black" href="/dashboard/connect">Connect a new App</Link>
-          </div>
+          <Link className="btn-black" href="/dashboard/connect">
+            Connect a new App
+          </Link>
         </div>
       )}
       {doorsList.length > 0 && (

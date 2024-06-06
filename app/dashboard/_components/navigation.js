@@ -1,23 +1,49 @@
 import cn from "@/app/(landing)/_components/cn";
 import Link from "next/link";
 
-const Li = ({ children, active, link }) => (
+const Li = ({ name, active, link }) => (
   <li
     className={cn("capitalize hover:underline underline-offset-8", {
-      underline: active === children,
+      underline: active,
     })}
   >
-    <Link href={`/dashboard/${link || children}`}>{children}</Link>
+    <Link href={`${link || name}`}>{name}</Link>
   </li>
 );
 
-export default async function Navigation({ activeCategory }) {
+export default async function Navigation({ activeCategory, subItems }) {
+  let items = [
+    { name: "apps", link: "/dashboard", active: activeCategory === "apps" },
+    { name: "settings", active: activeCategory === "settings" },
+  ];
 
+  if (subItems) {
+    items = items.filter((item) => item.name === activeCategory);
+  }
 
   return (
-    <ul className="w-72 space-y-4 text-xl">
-      <Li active={activeCategory} link="/">apps</Li>
-      <Li active={activeCategory}>settings</Li>
-    </ul>
+    <div className="w-72">
+      {items.length > 1 && (
+        <ul className="text-2xl space-y-4">
+          {items.map((item) => (
+            <Li key={item.name} {...item} />
+          ))}
+        </ul>
+      )}
+      {items.length === 1 && (
+        <div className="space-y-6">
+          <Link href={items[0].link}>
+            <h2 className="text-2xl capitalize hover:underline underline-offset-8">
+              {items[0].name}
+            </h2>
+          </Link>
+          <ul className="space-y-4">
+            {subItems.map((item) => (
+              <Li key={item.name} {...item} />
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }

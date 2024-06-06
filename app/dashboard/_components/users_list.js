@@ -4,20 +4,13 @@ import Th from "@/app/dashboard/_components/th";
 import Td from "@/app/dashboard/_components/td";
 import PageTitle from "@/app/dashboard/_components/page_title";
 import { and, eq, ilike } from "drizzle-orm";
-import { users, doors } from "@/db/schema.mjs";
-import { fetchCurrentUser } from "@/actions";
+import { users } from "@/db/schema.mjs";
 import { redirect } from "next/navigation";
 import NoResults from "@/app/dashboard/_components/no_results";
 import SearchInput from "@/app/dashboard/_components/search_input";
 
-export default async function UsersList({ doorName, query }) {
-  const currentUser = await fetchCurrentUser();
-
-  const door = await db.query.doors.findFirst({
-    where: and(eq(doors.name, doorName), eq(doors.userId, currentUser.id)),
-  });
-
-  let filters = [eq(users.doorId, door.id)];
+export default async function UsersList({ doorName, doorId, query }) {
+  let filters = [eq(users.doorId, doorId)];
   if (query) {
     filters = [...filters, [ilike(users.email, `%${query}%`)]];
   }

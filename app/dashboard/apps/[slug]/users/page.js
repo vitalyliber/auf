@@ -22,7 +22,7 @@ export default async function Dashboard({ params, searchParams }) {
       <Navigation
         activeCategory="apps"
         // TODO add users_count here
-        subItems={[{ name: "All users (10)", active: true }]}
+        subItems={[{ name: "All users (10)", link: `/dashboard/apps/${params.slug}/users`, active: true }]}
       />
       <UsersList
         doorName={params.slug}

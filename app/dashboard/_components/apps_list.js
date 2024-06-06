@@ -13,16 +13,18 @@ import SearchInput from "@/app/dashboard/_components/search_input";
 
 export default async function AppsList({ query }) {
   const currentUser = await fetchCurrentUser();
+
+  if (!currentUser?.id) {
+    redirect('/')
+  }
+
   let filters = [eq(doors.userId, currentUser.id)];
   if (query) {
     filters = [...filters, [ilike(doors.name, `%${query}%`)]];
   }
 
   const doorsList = await db.query.doors.findMany({
-    where: and(...filters),
-    with: {
-      users: true,
-    },
+    where: and(...filters)
   });
 
   async function searchAction(formData) {
@@ -79,7 +81,7 @@ export default async function AppsList({ query }) {
                     </Link>
                   </Td>
                   <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
-                  <Td>{item.users.length}</Td>
+                  <Td>{item.usersCount}</Td>
                 </tr>
               ))}
               </tbody>

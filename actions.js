@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { userAgent } from "next/server";
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import { devices, doors, users } from "@/db/schema.mjs";
 import { db } from "@/db/db.mjs";
 import { revalidatePath } from "next/cache";
@@ -24,11 +24,14 @@ export async function getOrCreateUser(email, doorName = "auf") {
     where: eq(users.email, email, users.doorId, door.id),
   });
 
+  let userData;
   if (!user) {
-    return db.insert(users).values({ email: email, doorId: door.id });
+    userData = await db.insert(users).values({ email: email, doorId: door.id });
   } else {
-    return user;
+    userData = user;
   }
+  await updateDoorsUsersCounter(door.id);
+  return userData;
 }
 
 async function updateUser(email, doorName, doorId) {}
@@ -84,6 +87,7 @@ export async function confirmationAction(code, email, appName) {
       .insert(devices)
       .values({ userId: user.id, token: tmpToken, userAgent: reqUserAgent });
 
+    await updateUsersDevicesCounter(user.id)
     return {
       status: "success",
       title: "You've successfully authenticated",
@@ -108,6 +112,7 @@ export default async function getUserJWTByTmpToken(tmpToken) {
           id: user.id,
           email: user.email,
           deviceId: device.id,
+          doorId: user.doorId,
         };
 
         const jwtToken = await createJWT(payload);
@@ -123,6 +128,30 @@ export default async function getUserJWTByTmpToken(tmpToken) {
   } catch (e) {
     console.log("error", e.response.data);
   }
+}
+
+export async function updateUsersDevicesCounter(userId) {
+  const devicesCount = await db
+    .select({ count: count() })
+    .from(devices)
+    .where(eq(devices.userId, userId));
+
+  await db
+    .update(users)
+    .set({ devicesCount: devicesCount?.[0]?.count || 0 })
+    .where(eq(users.id, userId));
+}
+
+export async function updateDoorsUsersCounter(doorId) {
+  const usersCount = await db
+    .select({ count: count() })
+    .from(users)
+    .where(eq(users.doorId, doorId));
+
+  await db
+    .update(doors)
+    .set({ usersCount: usersCount?.[0]?.count || 0 })
+    .where(eq(doors.id, doorId));
 }
 
 export async function fetchCurrentUser() {

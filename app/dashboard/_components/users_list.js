@@ -16,10 +16,7 @@ export default async function UsersList({ doorName, doorId, query }) {
   }
 
   const usersList = await db.query.users.findMany({
-    where: and(...filters),
-    with: {
-      devices: true,
-    },
+    where: and(...filters)
   });
 
   async function searchAction(formData) {
@@ -63,7 +60,7 @@ export default async function UsersList({ doorName, doorId, query }) {
                   <Td>Auf.</Td>
                   <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
                   <Td>{fmtDateWithTime(new Date())}</Td>
-                  <Td>{item.devices.length}</Td>
+                  <Td>{item.devicesCount}</Td>
                 </tr>
               ))}
             </tbody>

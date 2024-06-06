@@ -1,6 +1,5 @@
 "use server";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import { tokenName } from "@/app/(landing)/_components/constants";
 
 export async function getAuthTokenAction() {
@@ -11,7 +10,6 @@ export async function getAuthTokenAction() {
 export async function logoutAction() {
   const cookiesStore = cookies();
   cookiesStore.delete(tokenName);
-  revalidatePath("/", "layout");
 }
 
 export async function setJwtTokenToCookies(token) {

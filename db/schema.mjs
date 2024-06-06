@@ -15,7 +15,8 @@ export const doors = pgTable("doors", {
   name: varchar("name", { length: 256 }).notNull(),
   domain: varchar("domain", { length: 256 }).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  userId: integer('user_id').references(() => users.id),
+  userId: integer("user_id").references(() => users.id),
+  usersCount: integer("users_count").default(0),
 });
 
 export const doorsRelations = relations(doors, ({ many, one }) => ({
@@ -34,6 +35,7 @@ export const users = pgTable(
     email: varchar("email", { length: 256 }).notNull(),
     doorId: integer("door_id").notNull(),
     confirmed: boolean("confirmed").default(false),
+    devicesCount: integer("devices_count").default(0),
   },
   (t) => ({
     unique: unique("door_user").on(t.email, t.doorId),

@@ -48,7 +48,6 @@ export default function Auth_btn({
           await setJwtTokenToCookies(respJSON?.token);
           const params = new URLSearchParams(searchParams.toString());
           params.delete(tmpTokenName);
-          console.log("pathname", pathname)
           if (appName === "auf") {
             window.location.href = "/dashboard" + "?" + params.toString();
           } else {

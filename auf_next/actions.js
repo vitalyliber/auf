@@ -18,9 +18,10 @@ export async function logoutAction() {
 }
 
 export async function setJwtTokenToCookies(token) {
+  if (!token) return
   const cookiesStore = cookies();
-  await cookiesStore.set(tokenName, token, { maxAge: 31536000 });
   // TODO add the internal token name here
+  await cookiesStore.set(tokenName, token, { maxAge: 31536000 });
 }
 
 export async function fetchCurrentUser() {

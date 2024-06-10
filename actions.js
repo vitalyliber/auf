@@ -103,7 +103,7 @@ export default async function getUserJWTByTmpToken(tmpToken) {
           id: user.id,
           email: user.email,
           deviceId: device.id,
-          doorId: user.doorId,
+          appId: user.doorId,
         };
 
         const jwtToken = await createJWT(payload);

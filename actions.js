@@ -8,7 +8,7 @@ import { db } from "@/db/db.mjs";
 import { cookies } from "next/headers";
 import { createJWT, verifyJWT } from "@/utils/jwt";
 import isDev from "@/utils/isDev";
-import { tokenName } from "@/auf_next/constants";
+import { tokenName } from "@/auf_next/index.js";
 
 export async function getOrCreateUser(email, doorName = "auf") {
   const door = await db.query.doors.findFirst({

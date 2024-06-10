@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
-export default function Auth_btn({
+export default function AuthBtn({
   SignInComponent,
   SignOutComponent,
   appName,

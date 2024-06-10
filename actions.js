@@ -28,8 +28,6 @@ export async function getOrCreateUser(email, doorName = "auf") {
   return userData;
 }
 
-async function updateUser(email, doorName, doorId) {}
-
 export async function sendAuthCodeAction(email, appName) {
   // ten minutes
   const cookiesStore = cookies();

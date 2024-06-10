@@ -5,7 +5,7 @@ export default function useCurrentUser() {
   const [user, setUser] = useState({});
 
   const getAuthToken = useCallback(async () => {
-    const userData = await fetchCurrentUser() || {};
+    const userData = await fetchCurrentUser();
 
     setUser(userData);
   }, []);

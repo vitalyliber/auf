@@ -1,7 +1,8 @@
 // Auf server communication token
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 
-export const tokenName = "auth_token";
+// Auf API token name
+export const tokenName = "api_auth_token";
 
 // Client auf token
 // Use it for securely getting user info on the client / backend

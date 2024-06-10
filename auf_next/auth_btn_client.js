@@ -1,6 +1,6 @@
 "use client";
 
-import { appUrl } from "./constants";
+import { appUrl, tokenName } from "./constants";
 import { logoutAction } from "./actions";
 import Link from "next/link";
 import useCurrentUser from "@/auf_next/useCurrentUser";
@@ -10,10 +10,12 @@ export default function AuthBtnClient({
   SignOutComponent,
   appName,
 }) {
-  const user = useCurrentUser()
+  const user = useCurrentUser();
 
   const handleLogout = async () => {
-    await fetch(`/api/tokens?token=${jwtToken}`, { method: "DELETE" });
+    await fetch(`/api/tokens?${tokenName}=${user.apiToken}`, {
+      method: "DELETE",
+    });
     await logoutAction();
 
     window.location.href = "/";

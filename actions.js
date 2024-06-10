@@ -6,7 +6,7 @@ import { count, eq } from "drizzle-orm";
 import { devices, doors, users } from "@/db/schema.mjs";
 import { db } from "@/db/db.mjs";
 import { cookies } from "next/headers";
-import { createJWT, verifyJWT } from "@/utils/jwt";
+import { createJWT, verifyJWT } from "@/auf_next/jwt";
 import isDev from "@/utils/isDev";
 import { tokenName } from "@/auf_next/index.js";
 
@@ -146,8 +146,4 @@ export async function updateDoorsUsersCounter(doorId) {
     .where(eq(doors.id, doorId));
 }
 
-export async function fetchCurrentUser() {
-  const cookiesStore = cookies();
-  const token = cookiesStore.get(tokenName)?.value;
-  return verifyJWT(token);
-}
+

@@ -6,7 +6,7 @@ import PageTitle from "@/app/dashboard/_components/page_title";
 import Link from "next/link";
 import { and, eq, ilike } from "drizzle-orm";
 import { doors } from "@/db/schema.mjs";
-import { fetchCurrentUser } from "@/actions";
+import { fetchCurrentUser } from "@/auf_next";
 import { redirect } from "next/navigation";
 import NoResults from "@/app/dashboard/_components/no_results";
 import SearchInput from "@/app/dashboard/_components/search_input";

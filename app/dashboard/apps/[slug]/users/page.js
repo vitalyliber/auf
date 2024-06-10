@@ -3,7 +3,7 @@ import UsersList from "@/app/dashboard/_components/users_list";
 import { db } from "@/db/db.mjs";
 import { and, eq } from "drizzle-orm";
 import { doors } from "@/db/schema.mjs";
-import { fetchCurrentUser } from "@/actions";
+import { fetchCurrentUser } from "@/auf_next";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard({ params, searchParams }) {

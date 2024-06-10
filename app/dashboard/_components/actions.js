@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { doors } from "@/db/schema.mjs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { fetchCurrentUser } from "@/actions";
+import { fetchCurrentUser } from "@/auf_next";
 
 export async function createApp(_, formData) {
   const name = formData.get("name");

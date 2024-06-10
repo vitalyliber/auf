@@ -5,16 +5,10 @@ import { userAgent } from "next/server";
 import { count, eq } from "drizzle-orm";
 import { devices, doors, users } from "@/db/schema.mjs";
 import { db } from "@/db/db.mjs";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { createJWT, verifyJWT } from "@/utils/jwt";
 import isDev from "@/utils/isDev";
-import { tokenName } from "@/app/(landing)/_components/constants";
-
-export async function addRecord() {
-  await db.insert(users).values({ email: "Andrew", doorId: 1 });
-  revalidatePath("/");
-}
+import { tokenName } from "@/auf_next/constants";
 
 export async function getOrCreateUser(email, doorName = "auf") {
   const door = await db.query.doors.findFirst({

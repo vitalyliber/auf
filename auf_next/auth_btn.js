@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { appUrl } from "@/app/(landing)/_components/constants";
+import { appUrl } from "./constants";
 import {
   getAuthTokenAction,
   logoutAction,
   setJwtTokenToCookies,
-} from "@/app/(landing)/_components/auth_actions";
+} from "./actions";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 

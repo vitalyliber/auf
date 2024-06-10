@@ -1,6 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
-import { tokenName } from "@/app/(landing)/_components/constants";
+import { tokenName } from "./constants";
 
 export async function getAuthTokenAction() {
   const cookiesStore = cookies();

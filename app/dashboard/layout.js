@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { AuthBtn } from "@/auf_next/index";
+import { AuthBtnServer } from "@/auf_next/index";
 import Link from "next/link";
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
           <Link href="/dashboard">
             <div className="text-3xl">Auf.</div>
           </Link>
-          <AuthBtn
+          <AuthBtnServer
             appName="auf"
             SignInComponent={<div className="btn hidden md:block">Sign in</div>}
             SignOutComponent={

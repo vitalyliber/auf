@@ -50,3 +50,14 @@ export async function fetchApiCurrentUser() {
 
   return user;
 }
+
+export async function updateOnlineAt() {
+  const cookiesStore = cookies();
+  const token = cookiesStore.get(tokenName)?.value;
+
+  // TODO set update interval here
+
+  await fetch(`${appUrl}/api/users/online_at?${tokenName}=${token}`, {
+    method: "PATCH",
+  });
+}

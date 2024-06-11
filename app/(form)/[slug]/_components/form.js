@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { confirmationAction, sendAuthCodeAction } from "@/actions";
 import LoginIssues from "@/app/(form)/[slug]/_components/login-issues";
-import { temporaryTokenName } from "@/auf_next";
+import { adminAppName, appUrl, temporaryTokenName } from "@/auf_next";
 
 export default function Form({ appName }) {
   const router = useRouter();
@@ -47,13 +47,26 @@ export default function Form({ appName }) {
   const handleConfirmation = useCallback(async () => {
     const res = await confirmationAction(inputCode, email, appName);
     if (res.status === "success") {
-      router.push(`/api/auf?${temporaryTokenName}=${res.tmpToken}`);
+      let redirectUrlQuery = "";
+      if (appName === adminAppName) {
+        redirectUrlQuery = `&redirect_url=${`${appUrl}/dashboard`}`;
+      }
+      if (searchParams.get("redirect_url")) {
+        redirectUrlQuery = `&redirect_url=${searchParams.get("redirect_url")}`;
+      }
+
+      router.push(
+        `/api/auf?${temporaryTokenName}=${res.tmpToken}${redirectUrlQuery}`,
+      );
       router.refresh();
     }
-  }, [inputCode, router, email, appName]);
+    if (res.status === "error") {
+      toast.error(res.title);
+    }
+  }, [inputCode, router, email, appName, toast]);
 
   useRunOnce(() => {
-    if (searchParams.get("href")) {
+    if (searchParams.get("redirect_url")) {
       toast.success("Login to continue");
     }
   }, [toast, searchParams]);

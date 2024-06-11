@@ -48,9 +48,7 @@ export default function Form({ appName }) {
     const res = await confirmationAction(inputCode, email, appName);
     if (res.status === "success") {
       let redirectUrlQuery = "";
-      if (appName === adminAppName) {
-        redirectUrlQuery = `&redirect_url=${`${appUrl}/dashboard`}`;
-      }
+
       if (searchParams.get("redirect_url")) {
         redirectUrlQuery = `&redirect_url=${searchParams.get("redirect_url")}`;
       }

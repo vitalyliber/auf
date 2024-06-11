@@ -1,5 +1,5 @@
 import "@/app/globals.css";
-import { adminAppName, AuthBtnServer } from "@/auf_next/index";
+import { adminAppName, appUrl, AuthBtnServer } from "@/auf_next/index";
 import Link from "next/link";
 
 export const metadata = {
@@ -16,6 +16,7 @@ export default function RootLayout({ children }) {
             <div className="text-3xl">Auf.</div>
           </Link>
           <AuthBtnServer
+            redirectUrl={`${appUrl}/dashboard`}
             appName={adminAppName}
             SignInComponent={<div className="btn hidden md:block">Sign in</div>}
             SignOutComponent={

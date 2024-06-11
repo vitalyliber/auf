@@ -3,6 +3,7 @@
 import { appUrl, tokenName } from "./constants";
 import { logoutAction } from "./actions";
 import Link from "next/link";
+import { usePathname } from 'next/navigation'
 import useCurrentUser from "@/auf_next/useCurrentUser";
 import useUpdateOnlineAt from "@/auf_next/useUpdateOnlineAt";
 
@@ -10,7 +11,9 @@ export default function AuthBtnClient({
   SignInComponent,
   SignOutComponent,
   appName,
+  redirectUrl
 }) {
+  const pathname = usePathname()
   useUpdateOnlineAt()
   const user = useCurrentUser();
 
@@ -28,7 +31,7 @@ export default function AuthBtnClient({
       {user.isLoggedIn ? (
         <div onClick={handleLogout}>{SignOutComponent}</div>
       ) : (
-        <Link href={`${appUrl}/${appName}`}>{SignInComponent}</Link>
+        <Link href={`${appUrl}/${appName}?redirect_url=${redirectUrl || pathname}`}>{SignInComponent}</Link>
       )}
     </>
   );

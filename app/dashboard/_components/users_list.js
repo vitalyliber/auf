@@ -59,7 +59,7 @@ export default async function UsersList({ doorName, doorId, query }) {
                   <Td>{item.email}</Td>
                   <Td>Auf.</Td>
                   <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
-                  <Td>{fmtDateWithTime(new Date())}</Td>
+                  <Td>{fmtDateWithTime(item.onlineAt.toString())}</Td>
                   <Td>{item.devicesCount}</Td>
                 </tr>
               ))}

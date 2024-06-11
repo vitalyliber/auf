@@ -6,9 +6,10 @@ import PageTitle from "@/app/dashboard/_components/page_title";
 import { and, eq, ilike } from "drizzle-orm";
 import { users } from "@/db/schema.mjs";
 import { redirect } from "next/navigation";
-import NoResults from "@/app/dashboard/_components/no_results";
+import NoSearchResults from "@/app/dashboard/_components/no_search_results";
 import SearchInput from "@/app/dashboard/_components/search_input";
 import Link from "next/link";
+import NoResults from "@/app/dashboard/_components/no_results";
 
 export default async function UsersList({ doorName, doorId, query }) {
   let filters = [eq(users.doorId, doorId)];
@@ -40,7 +41,9 @@ export default async function UsersList({ doorName, doorId, query }) {
         <SearchInput query={query} />
       </form>
 
-      {usersList.length > 0 || (!!query && <NoResults />)}
+      {usersList.length > 0 || (!!query && <NoSearchResults />)}
+
+      {usersList.length === 0 && !query && <NoResults />}
 
       {usersList.length > 0 && (
         <div className="shadow-sm overflow-hidden my-8 w-full">
@@ -62,7 +65,9 @@ export default async function UsersList({ doorName, doorId, query }) {
                   <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
                   <Td>{fmtDateWithTime(item.onlineAt.toString())}</Td>
                   <Td className="font-semibold capitalize underline underline-offset-4">
-                    <Link href={`/dashboard/apps/${doorName}/users/${item.id}`}>{item.devicesCount}</Link>
+                    <Link href={`/dashboard/apps/${doorName}/users/${item.id}`}>
+                      {item.devicesCount}
+                    </Link>
                   </Td>
                 </tr>
               ))}

@@ -37,7 +37,7 @@ export async function createApp(_, formData) {
 
   const latinLowercaseSchema = z.string().regex(latinLowercaseRegex, {
     message:
-      "Should contain only lowercase Latin characters without special symbols",
+      "The name should contain only lowercase Latin characters without special symbols",
   });
 
   const latinLowercaseSchemaParsed = latinLowercaseSchema.safeParse(name);

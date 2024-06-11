@@ -17,3 +17,11 @@ export function fmtDateWithTime(date) {
     minute: "numeric", // values: 'numeric', '2-digit'
   });
 }
+
+export function confirmAction(formAction, message = "Are you sure?") {
+  return (...args) => {
+    if (confirm(message)) {
+      return formAction(...args);
+    }
+  };
+}

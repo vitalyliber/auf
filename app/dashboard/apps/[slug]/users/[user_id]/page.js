@@ -42,7 +42,7 @@ export default async function DevicesPage({ params }) {
           },
         ]}
       />
-      <DevicesList userId={user.id} email={user.email} />
+      <DevicesList userId={user.id} email={user.email} appName={params.slug} />
     </main>
   );
 }

@@ -1,14 +1,14 @@
 import { db } from "@/db/db.mjs";
 import { eq } from "drizzle-orm";
 import { devices } from "@/db/schema.mjs";
-import NoResults from "@/app/dashboard/_components/no_results";
 import Th from "@/app/dashboard/_components/th";
 import Td from "@/app/dashboard/_components/td";
 import { fmtDateWithTime } from "@/app/_components/utils";
-import Link from "next/link";
 import PageTitle from "@/app/dashboard/_components/page_title";
+import DeleteDeviceButton from "@/app/dashboard/apps/[slug]/users/[user_id]/_components/delete_device_button";
+import NoResults from "@/app/dashboard/_components/no_results";
 
-export async function DevicesList({ userId, email }) {
+export async function DevicesList({ userId, email, appName }) {
   const devicesList = await db.query.devices.findMany({
     where: eq(devices.userId, userId),
   });
@@ -44,8 +44,12 @@ export async function DevicesList({ userId, email }) {
                     </Td>
                     <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
                     <Td>{fmtDateWithTime(item.onlineAt.toString())}</Td>
-                    <Td className="font-semibold capitalize underline underline-offset-4">
-                      <Link href={`/`}>Delete</Link>
+                    <Td className="font-semibold">
+                      <DeleteDeviceButton
+                        deviceId={item.id}
+                        userId={userId}
+                        appName={appName}
+                      />
                     </Td>
                   </tr>
                 );

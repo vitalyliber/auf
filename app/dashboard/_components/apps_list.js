@@ -8,7 +8,7 @@ import { and, eq, ilike } from "drizzle-orm";
 import { doors } from "@/db/schema.mjs";
 import { fetchCurrentUser } from "@/auf_next";
 import { redirect } from "next/navigation";
-import NoResults from "@/app/dashboard/_components/no_results";
+import NoSearchResults from "@/app/dashboard/_components/no_search_results";
 import SearchInput from "@/app/dashboard/_components/search_input";
 
 export default async function AppsList({ query }) {
@@ -60,7 +60,7 @@ export default async function AppsList({ query }) {
           </Link>
         </div>
       )}
-      {doorsList.length > 0 || (!!query && <NoResults/>)}
+      {doorsList.length > 0 || (!!query && <NoSearchResults/>)}
       {doorsList.length > 0 && (
         <>
           <div className="shadow-sm overflow-hidden my-8 w-full">

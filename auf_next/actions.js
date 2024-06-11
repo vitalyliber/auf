@@ -1,7 +1,8 @@
 "use server";
 import { cookies } from "next/headers";
 import { appUrl, internalTokenName, tokenName } from "./constants";
-import { verifyJWT } from "@/auf_next/jwt";
+import { verifyJWT, onlineAtCookieName } from "@/auf_next";
+import { redirect } from "next/navigation";
 
 export async function logoutAction() {
   const cookiesStore = cookies();
@@ -55,9 +56,26 @@ export async function updateOnlineAt() {
   const cookiesStore = cookies();
   const token = cookiesStore.get(tokenName)?.value;
 
-  // TODO set update interval here
+  // Cache it for 5 minutes
+  const updated = cookiesStore.get(onlineAtCookieName);
 
-  await fetch(`${appUrl}/api/users/online_at?${tokenName}=${token}`, {
-    method: "PATCH",
-  });
+  if (!updated) {
+    cookiesStore.set(onlineAtCookieName, "protect_server_from_ddos", {
+      maxAge: 5 * 60,
+    });
+
+    const response = await fetch(
+      `${appUrl}/api/users/online_at?${tokenName}=${token}`,
+      {
+        method: "PATCH",
+      },
+    );
+    if (response.status === 200) {
+      const json = await response.json();
+      if (json.status === "logout") {
+        await logoutAction();
+        redirect("/");
+      }
+    }
+  }
 }

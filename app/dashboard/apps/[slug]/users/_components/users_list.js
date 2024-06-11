@@ -8,6 +8,7 @@ import { users } from "@/db/schema.mjs";
 import { redirect } from "next/navigation";
 import NoResults from "@/app/dashboard/_components/no_results";
 import SearchInput from "@/app/dashboard/_components/search_input";
+import Link from "next/link";
 
 export default async function UsersList({ doorName, doorId, query }) {
   let filters = [eq(users.doorId, doorId)];
@@ -16,7 +17,7 @@ export default async function UsersList({ doorName, doorId, query }) {
   }
 
   const usersList = await db.query.users.findMany({
-    where: and(...filters)
+    where: and(...filters),
   });
 
   async function searchAction(formData) {
@@ -36,7 +37,7 @@ export default async function UsersList({ doorName, doorId, query }) {
     <div className="w-full">
       <PageTitle title="Users" />
       <form action={searchAction} method="GET">
-        <SearchInput query={query}/>
+        <SearchInput query={query} />
       </form>
 
       {usersList.length > 0 || (!!query && <NoResults />)}
@@ -60,7 +61,9 @@ export default async function UsersList({ doorName, doorId, query }) {
                   <Td>Auf.</Td>
                   <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
                   <Td>{fmtDateWithTime(item.onlineAt.toString())}</Td>
-                  <Td>{item.devicesCount}</Td>
+                  <Td className="font-semibold capitalize underline underline-offset-4">
+                    <Link href={`/dashboard/apps/${doorName}/users/${item.id}`}>{item.devicesCount}</Link>
+                  </Td>
                 </tr>
               ))}
             </tbody>

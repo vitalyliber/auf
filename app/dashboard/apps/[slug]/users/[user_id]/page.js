@@ -1,13 +1,17 @@
 import Navigation from "@/app/dashboard/_components/navigation";
-import UsersList from "@/app/dashboard/apps/[slug]/users/_components/users_list";
+import { fetchCurrentUser } from "@/auf_next";
 import { db } from "@/db/db.mjs";
 import { and, eq } from "drizzle-orm";
-import { doors } from "@/db/schema.mjs";
-import { fetchCurrentUser } from "@/auf_next";
+import { doors, users } from "@/db/schema.mjs";
 import { redirect } from "next/navigation";
+import { DevicesList } from "@/app/dashboard/apps/[slug]/users/[user_id]/_components/devices_list";
 
-export default async function Dashboard({ params, searchParams }) {
+export default async function DevicesPage({ params }) {
   const currentUser = await fetchCurrentUser();
+
+  if (!currentUser?.id) {
+    redirect("/dashboard");
+  }
 
   const door = await db.query.doors.findFirst({
     where: and(eq(doors.name, params.slug), eq(doors.userId, currentUser.id)),
@@ -17,6 +21,10 @@ export default async function Dashboard({ params, searchParams }) {
     redirect("/dashboard");
   }
 
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, params.user_id),
+  });
+
   return (
     <main className="flex space-x-10 px-16 py-7">
       <Navigation
@@ -25,15 +33,16 @@ export default async function Dashboard({ params, searchParams }) {
           {
             name: `All users (${door.usersCount})`,
             link: `/dashboard/apps/${params.slug}/users`,
+            active: false,
+          },
+          {
+            name: `All devices (${user.devicesCount})`,
+            link: `/dashboard/apps/${params.slug}/users/${params.user_id}`,
             active: true,
           },
         ]}
       />
-      <UsersList
-        doorName={params.slug}
-        doorId={door.id}
-        query={searchParams?.query}
-      />
+      <DevicesList userId={user.id} email={user.email} />
     </main>
   );
 }

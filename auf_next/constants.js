@@ -18,3 +18,5 @@ export const appUrl =
   process.env.NEXT_PUBLIC_APP_ENV === "development" ? developmentAppUrl : productionAppUrl;
 
 export const adminAppName = "auf"
+
+export const onlineAtCookieName = "online_at_cookie_name";

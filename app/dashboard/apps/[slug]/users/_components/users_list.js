@@ -27,8 +27,6 @@ export default async function UsersList({
   const pageSize = 20;
   const offset = (page - 1) * pageSize;
 
-  console.log("offset", offset);
-
   const getUsers = async () => {
     return db.query.users.findMany({
       orderBy: (users, { desc }) => desc(users.id),

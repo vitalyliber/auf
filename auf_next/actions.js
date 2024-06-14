@@ -29,10 +29,17 @@ export async function fetchCurrentUser() {
 
   const internalToken = cookiesStore.get(internalTokenName)?.value;
   const apiToken = cookiesStore.get(tokenName)?.value;
+  const userData = await verifyJWT(internalToken);
+
+  if (!userData) {
+    console.error("The JWT token is expired");
+    redirect("/");
+  }
+
   return {
     internalToken,
     apiToken,
-    ...((await verifyJWT(internalToken)) || {}),
+    ...userData,
   };
 }
 

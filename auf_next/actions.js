@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { appUrl, internalTokenName, tokenName } from "./constants";
 import { verifyJWT, onlineAtCookieName } from "@/auf_next";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export async function logoutAction() {
   const cookiesStore = cookies();
@@ -24,7 +25,7 @@ export async function setApiTokenToCookies(token) {
   await cookiesStore.set(tokenName, token, { maxAge: 31536000 });
 }
 
-export async function fetchCurrentUser() {
+export const fetchCurrentUser = cache(async () => {
   const cookiesStore = cookies();
 
   const internalToken = cookiesStore.get(internalTokenName)?.value;
@@ -41,9 +42,9 @@ export async function fetchCurrentUser() {
     apiToken,
     ...userData,
   };
-}
+});
 
-export async function fetchApiCurrentUser() {
+export const fetchApiCurrentUser = cache(async () => {
   const cookiesStore = cookies();
   const token = cookiesStore.get(tokenName)?.value;
   let user = null;
@@ -57,7 +58,7 @@ export async function fetchApiCurrentUser() {
   }
 
   return user;
-}
+})
 
 export async function updateOnlineAt() {
   const cookiesStore = cookies();

@@ -33,6 +33,8 @@ export default async function Dashboard({ params, searchParams }) {
         doorName={params.slug}
         doorId={door.id}
         query={searchParams?.query}
+        usersCount={door.usersCount}
+        page={parseInt(searchParams?.page, 10) || 1}
       />
     </main>
   );

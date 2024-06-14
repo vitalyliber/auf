@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import { appUrl, internalTokenName, tokenName } from "./constants";
 import { verifyJWT, onlineAtCookieName } from "@/auf_next";
 import { redirect } from "next/navigation";
-import { cache } from "react";
 
 export async function logoutAction() {
   const cookiesStore = cookies();
@@ -25,26 +24,28 @@ export async function setApiTokenToCookies(token) {
   await cookiesStore.set(tokenName, token, { maxAge: 31536000 });
 }
 
-export const fetchCurrentUser = cache(async () => {
+export const fetchCurrentUser = async ({ brokenJwtRedirect = true } = {}) => {
   const cookiesStore = cookies();
 
   const internalToken = cookiesStore.get(internalTokenName)?.value;
   const apiToken = cookiesStore.get(tokenName)?.value;
   const userData = await verifyJWT(internalToken);
 
-  if (!userData) {
+  if (brokenJwtRedirect && !userData) {
     console.error("The JWT token is expired");
     redirect("/");
   }
 
+  if (!userData?.id) return null
+
   return {
     internalToken,
     apiToken,
-    ...userData,
+    ...(userData),
   };
-});
+};
 
-export const fetchApiCurrentUser = cache(async () => {
+export const fetchApiCurrentUser = async () => {
   const cookiesStore = cookies();
   const token = cookiesStore.get(tokenName)?.value;
   let user = null;
@@ -58,7 +59,7 @@ export const fetchApiCurrentUser = cache(async () => {
   }
 
   return user;
-})
+};
 
 export async function updateOnlineAt() {
   const cookiesStore = cookies();

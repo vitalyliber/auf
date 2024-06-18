@@ -79,7 +79,13 @@ export default async function UsersList({
             <tbody className="bg-white dark:bg-slate-800">
               {usersList.map((item) => (
                 <tr key={item.id}>
-                  <Td>{item.email}</Td>
+                  <Td className="font-semibold underline underline-offset-4">
+                    <Link
+                      href={`/dashboard/apps/${doorName}/users/${item.id}/profile`}
+                    >
+                      {item.email}
+                    </Link>
+                  </Td>
                   <Td>Auf.</Td>
                   <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
                   <Td>{fmtDateWithTime(item.onlineAt.toString())}</Td>
@@ -105,7 +111,9 @@ export default async function UsersList({
             {"<"}
           </Link>
 
-          <div className="bg-gray-100 rounded-lg px-3 py-1 text-gray-800">{page}</div>
+          <div className="bg-gray-100 rounded-lg px-3 py-1 text-gray-800">
+            {page}
+          </div>
           <Link
             className={cn("underline underline-offset-2 px-3", {
               invisible: currentListCount + offset >= usersCount,

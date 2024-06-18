@@ -1,12 +1,12 @@
-import Navigation from "@/app/dashboard/_components/navigation";
 import { fetchCurrentUser } from "@/auf_next";
+import { redirect } from "next/navigation";
 import { db } from "@/db/db.mjs";
 import { and, eq } from "drizzle-orm";
 import { doors, users } from "@/db/schema.mjs";
-import { redirect } from "next/navigation";
-import { DevicesList } from "@/app/dashboard/apps/[slug]/users/[user_id]/_components/devices_list";
+import Navigation from "@/app/dashboard/_components/navigation";
+import PageTitle from "@/app/dashboard/_components/page_title";
 
-export default async function DevicesPage({ params }) {
+export default async function UserProfilePage({ params }) {
   const currentUser = await fetchCurrentUser();
 
   if (!currentUser?.id) {
@@ -38,16 +38,20 @@ export default async function DevicesPage({ params }) {
           {
             name: `All devices (${user.devicesCount})`,
             link: `/dashboard/apps/${params.slug}/users/${params.user_id}`,
-            active: true,
+            active: false,
           },
           {
             name: `Profile`,
             link: `/dashboard/apps/${params.slug}/users/${params.user_id}/profile`,
-            active: false,
+            active: true,
           },
         ]}
       />
-      <DevicesList userId={user.id} email={user.email} appName={params.slug} />
+      <div className="w-full">
+        <PageTitle title={`Profile (${currentUser.email})`} />
+
+        <div>The roles form here</div>
+      </div>
     </main>
   );
 }

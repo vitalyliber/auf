@@ -9,8 +9,9 @@ import { cookies } from "next/headers";
 import { createJWT, verifyJWT } from "@/auf_next/jwt";
 import isDev from "@/utils/isDev";
 import createUserJwtObject from "@/auf_next/createUserJwtObject";
+import { adminAppName } from "@/auf_next";
 
-export async function getOrCreateUser(email, doorName = "auf") {
+export async function getOrCreateUser(email, doorName = adminAppName) {
   const door = await db.query.doors.findFirst({
     where: eq(doors.name, doorName),
   });

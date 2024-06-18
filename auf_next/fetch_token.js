@@ -1,7 +1,7 @@
 import {
   appUrl,
   createJWT,
-  fetchApiCurrentUser,
+  fetchCurrentUserByJwtTokenViaApi,
   setApiTokenToCookies,
   setInternalTokenToCookies,
   temporaryTokenName,
@@ -27,8 +27,7 @@ export async function fetchToken(request) {
       if (respJSON?.token) {
         await setApiTokenToCookies(respJSON?.token);
         // Fetch current user from the Auf server here (don't use fetch current user method)
-        const currentUser = await fetchApiCurrentUser();
-        console.log("currentUser", currentUser);
+        const currentUser = await fetchCurrentUserByJwtTokenViaApi();
         // Encrypt user data using internal key
         const internalToken = await createJWT(currentUser);
         await setInternalTokenToCookies(internalToken);

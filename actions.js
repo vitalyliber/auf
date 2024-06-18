@@ -2,19 +2,20 @@
 
 import { headers } from "next/headers";
 import { userAgent } from "next/server";
-import { count, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import { devices, doors, users } from "@/db/schema.mjs";
 import { db } from "@/db/db.mjs";
 import { cookies } from "next/headers";
 import { createJWT, verifyJWT } from "@/auf_next/jwt";
 import isDev from "@/utils/isDev";
+import createUserJwtObject from "@/auf_next/createUserJwtObject";
 
 export async function getOrCreateUser(email, doorName = "auf") {
   const door = await db.query.doors.findFirst({
     where: eq(doors.name, doorName),
   });
   const user = await db.query.users.findFirst({
-    where: eq(users.email, email, users.doorId, door.id),
+    where: and(eq(users.email, email), eq(users.doorId, door.id)),
   });
 
   let userData;
@@ -78,7 +79,7 @@ export async function confirmationAction(code, email, appName) {
       .insert(devices)
       .values({ userId: user.id, token: tmpToken, userAgent: reqUserAgent });
 
-    await updateUsersDevicesCounter(user.id)
+    await updateUsersDevicesCounter(user.id);
     return {
       status: "success",
       title: "You've successfully authenticated",
@@ -99,12 +100,13 @@ export default async function getUserJWTByTmpToken(tmpToken) {
         where: eq(users.id, device.userId),
       });
       if (user) {
-        const payload = {
+        const payload = createUserJwtObject({
           id: user.id,
           email: user.email,
           deviceId: device.id,
           appId: user.doorId,
-        };
+          roles: user.roles,
+        });
 
         const jwtToken = await createJWT(payload);
 
@@ -144,5 +146,3 @@ export async function updateDoorsUsersCounter(doorId) {
     .set({ usersCount: usersCount?.[0]?.count || 0 })
     .where(eq(doors.id, doorId));
 }
-
-

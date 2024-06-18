@@ -1,8 +1,10 @@
 "use server";
 import { cookies } from "next/headers";
 import { appUrl, internalTokenName, tokenName } from "./constants";
-import { verifyJWT, onlineAtCookieName } from "@/auf_next";
+import { verifyJWT, onlineAtCookieName, createJWT } from "@/auf_next";
 import { redirect } from "next/navigation";
+import { isEqual } from "lodash";
+import createUserJwtObject from "@/auf_next/createUserJwtObject";
 
 export async function logoutAction() {
   const cookiesStore = cookies();
@@ -24,7 +26,7 @@ export async function setApiTokenToCookies(token) {
   await cookiesStore.set(tokenName, token, { maxAge: 31536000 });
 }
 
-export const fetchCurrentUser = async ({ brokenJwtRedirect = true } = {}) => {
+export const fetchCurrentUser = async () => {
   const cookiesStore = cookies();
 
   const internalToken = cookiesStore.get(internalTokenName)?.value;
@@ -38,14 +40,17 @@ export const fetchCurrentUser = async ({ brokenJwtRedirect = true } = {}) => {
   };
 };
 
-export const fetchApiCurrentUser = async () => {
+export const fetchCurrentUserByJwtTokenViaApi = async () => {
   const cookiesStore = cookies();
   const token = cookiesStore.get(tokenName)?.value;
   let user = null;
 
-  const response = await fetch(`${appUrl}/api/users?${tokenName}=${token}`, {
-    method: "GET",
-  });
+  const response = await fetch(
+    `${appUrl}/api/users/parse_jwt?${tokenName}=${token}`,
+    {
+      method: "GET",
+    },
+  );
 
   if (response.status === 200) {
     user = await response.json();
@@ -66,17 +71,44 @@ export async function updateOnlineAt() {
       maxAge: 5 * 60,
     });
 
-    const response = await fetch(
+    // Update an online status
+    const onlineAtResponse = await fetch(
       `${appUrl}/api/users/online_at?${tokenName}=${token}`,
       {
         method: "PATCH",
       },
     );
-    if (response.status === 200) {
-      const json = await response.json();
+
+    if (onlineAtResponse.status === 200) {
+      const json = await onlineAtResponse.json();
       if (json.status === "logout") {
         await logoutAction();
         redirect("/");
+      } else {
+        // Update token if roles is changed
+        const userDataResponse = await fetch(
+          `${appUrl}/api/users/data?${tokenName}=${token}`,
+          {
+            method: "GET",
+          },
+        );
+
+        if (userDataResponse.status === 200) {
+          const user = await userDataResponse.json();
+          const currenUser = await fetchCurrentUser();
+
+          if (!isEqual(user, currenUser)) {
+            const updatedUser = createUserJwtObject({
+              id: user.id,
+              email: user.email,
+              deviceId: currenUser.deviceId,
+              appId: user.appId,
+              roles: user.roles,
+            });
+            const internalToken = await createJWT(updatedUser);
+            await setInternalTokenToCookies(internalToken);
+          }
+        }
       }
     }
   }

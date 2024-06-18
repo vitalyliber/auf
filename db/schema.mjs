@@ -37,6 +37,7 @@ export const users = pgTable(
     confirmed: boolean("confirmed").default(false),
     devicesCount: integer("devices_count").default(0),
     onlineAt: timestamp("online_at").notNull().defaultNow(),
+    roles: jsonb("roles").default({}),
   },
   (t) => ({
     unique: unique("door_user").on(t.email, t.doorId),

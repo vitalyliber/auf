@@ -19,6 +19,7 @@
     "drizzle-orm": "^0.30.10",
     "email-validator": "^2.0.4",
     "jose": "^5.2.4",
+    "lodash": "^4.17.21",
     "next": "14.2.3",
     "pg": "^8.11.5",
     "pg-connection-string": "^2.6.4",

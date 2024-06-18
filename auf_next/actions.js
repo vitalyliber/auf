@@ -31,17 +31,10 @@ export const fetchCurrentUser = async ({ brokenJwtRedirect = true } = {}) => {
   const apiToken = cookiesStore.get(tokenName)?.value;
   const userData = await verifyJWT(internalToken);
 
-  if (brokenJwtRedirect && !userData) {
-    console.error("The JWT token is expired");
-    redirect("/");
-  }
-
-  if (!userData?.id) return null
-
   return {
     internalToken,
     apiToken,
-    ...(userData),
+    ...(userData || {}),
   };
 };
 

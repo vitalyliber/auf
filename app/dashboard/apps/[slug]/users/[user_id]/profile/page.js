@@ -5,6 +5,7 @@ import { and, eq } from "drizzle-orm";
 import { doors, users } from "@/db/schema.mjs";
 import Navigation from "@/app/dashboard/_components/navigation";
 import PageTitle from "@/app/dashboard/_components/page_title";
+import RoleForm from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_components/role_form";
 
 export default async function UserProfilePage({ params }) {
   const currentUser = await fetchCurrentUser();
@@ -50,7 +51,22 @@ export default async function UserProfilePage({ params }) {
       <div className="w-full">
         <PageTitle title={`Profile (${currentUser.email})`} />
 
-        <div>The roles form here</div>
+        <div>
+          <label className="font-semibold">User roles</label>
+
+          <div className="flex mt-4 flex-wrap gap-2">
+            {Object.keys(user.roles)
+              .filter((role) => user.roles[role])
+              .map((role) => (
+                <div key={role} className="px-3 py-1 bg-black rounded text-white">
+                  {role}
+                  <span className="ml-2">x</span>
+                </div>
+              ))}
+          </div>
+
+          <RoleForm userId={user.id} />
+        </div>
       </div>
     </main>
   );

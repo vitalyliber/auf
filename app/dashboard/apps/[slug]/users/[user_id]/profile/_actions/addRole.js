@@ -11,8 +11,6 @@ export default async function addRole(_, formData) {
   const userId = formData.get("userId");
   const currentUser = await fetchCurrentUser();
 
-  console.log(name, userId, currentUser.appId);
-
   const user = await db.query.users.findFirst({
     where: and(eq(users.id, userId), eq(users.doorId, currentUser.appId)),
   });
@@ -27,4 +25,6 @@ export default async function addRole(_, formData) {
   });
 
   revalidatePath(`/dashboard/apps/${door.name}/users/${user.id}/profile`);
+
+  return { message: `The role "${name}" was successfully added` };
 }

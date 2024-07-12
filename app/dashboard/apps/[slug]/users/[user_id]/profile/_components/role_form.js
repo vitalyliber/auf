@@ -4,6 +4,7 @@ import { SubmitButton } from "@/app/_components/submit_button";
 import { useFormState } from "react-dom";
 import cn from "@/app/(landing)/_components/cn";
 import addRole from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_actions/addRole";
+import { useEffect, useRef } from "react";
 
 const initialState = {
   message: "",
@@ -11,9 +12,16 @@ const initialState = {
 
 export default function RoleForm({ userId }) {
   const [state, formAction] = useFormState(addRole, initialState);
+  const formRef = useRef();
+
+  useEffect(() => {
+    if (state.message.includes("successfully added")) {
+      formRef.current.reset();
+    }
+  }, [state]);
 
   return (
-    <form action={formAction}>
+    <form ref={formRef} action={formAction}>
       <input
         placeholder="Role"
         required
@@ -25,12 +33,12 @@ export default function RoleForm({ userId }) {
         className="hidden"
         type="text"
         name="userId"
-        value={userId}
+        defaultValue={userId}
       />
-      <p aria-live="polite" className={cn("text-red-600")}>
+      <p aria-live="polite" className={cn("hidden")}>
         {state?.message}
       </p>
-      <SubmitButton className="btn-black mt-8" >Add</SubmitButton>
+      <SubmitButton className="btn-black mt-8">Add</SubmitButton>
     </form>
   );
 }

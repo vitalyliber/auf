@@ -102,7 +102,7 @@ export async function updateOnlineAt() {
               id: user.id,
               email: user.email,
               deviceId: currenUser.deviceId,
-              appId: user.appId,
+              appId: user.doorId,
               roles: user.roles,
             });
             const internalToken = await createJWT(updatedUser);

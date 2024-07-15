@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { appUrl, onlineAtCookieName, tokenName } from "@/auf_next/constants";
 import { redirect } from "next/navigation";
-import { isEqual } from "lodash";
+import isEqual from 'fast-deep-equal';
 import createUserJwtObject from "@/auf_next/createUserJwtObject";
 import { createJWT } from "@/auf_next";
 import {

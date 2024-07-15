@@ -16,7 +16,8 @@
   },
   "homepage": "https://github.com/your-username/your-repo#readme",
   "dependencies": {
-    "jose": "*"
+    "jose": "*",
+    "fast-deep-equal": "*"
   },
   "devDependencies": {}
 }

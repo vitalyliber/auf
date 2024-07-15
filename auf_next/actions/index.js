@@ -1,5 +1,5 @@
-export * from "./fetchCurrentUser";
-export * from "./fetchCurrentUserByJwtTokenViaApi";
-export * from "./logoutAction";
-export * from "./setApiTokenToCookies";
-export * from "./setInternalTokenToCookies";
+export { fetchCurrentUser } from "./fetchCurrentUser";
+export { fetchCurrentUserByJwtTokenViaApi } from "./fetchCurrentUserByJwtTokenViaApi";
+export { logoutAction } from "./logoutAction";
+export { setApiTokenToCookies } from "./setApiTokenToCookies";
+export { setInternalTokenToCookies } from "./setInternalTokenToCookies";

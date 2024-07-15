@@ -1,11 +1,12 @@
 {
-  "name": "perdoor",
+  "name": "auf",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5000",
+    "deploy": "git push dokku@49.12.237.84:auf HEAD:main",
     "lint": "next lint",
     "db:gen": "drizzle-kit generate",
     "db:migrate": "node --env-file=.env db/migrate.mjs",

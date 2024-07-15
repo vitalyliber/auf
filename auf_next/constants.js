@@ -15,7 +15,7 @@ const productionAppUrl = "https://auf.casply.com";
 const developmentAppUrl = "http://localhost:3000";
 
 export const appUrl =
-  process.env.NEXT_PUBLIC_APP_ENV === "development" ? developmentAppUrl : productionAppUrl;
+  process.env?.NEXT_PUBLIC_APP_ENV === "development" ? developmentAppUrl : productionAppUrl;
 
 export const adminAppName = "auf"
 

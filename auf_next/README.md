@@ -2,6 +2,18 @@
 
 The Auf SDK for Next.js.
 
+This library requires the JWT_SECRET_KEY environment variable.
+
+```dotenv
+JWT_SECRET_KEY=xyz
+```
+
+It can be generated using the code below:
+
+```bash
+openssl rand -base64 32
+```
+
 ```jsx
 import { AuthBtnServer } from "auf-next";
 

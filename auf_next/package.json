@@ -1,0 +1,22 @@
+{
+  "name": "auf-next",
+  "version": "0.0.2",
+  "description": "Auth for modern applications",
+  "main": "index.js",
+  "keywords": [
+    "Auth",
+    "Authentication",
+    "Nextjs",
+    "Next"
+  ],
+  "author": "Vtaly Liber <zenamax@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/your-username/your-repo/issues"
+  },
+  "homepage": "https://github.com/your-username/your-repo#readme",
+  "dependencies": {
+    "jose": "*"
+  },
+  "devDependencies": {}
+}

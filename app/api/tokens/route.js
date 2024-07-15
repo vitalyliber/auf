@@ -1,5 +1,5 @@
 import getUserJWTByTmpToken, { updateUsersDevicesCounter } from "@/actions";
-import { verifyJWT } from "@/auf_next/jwt";
+import { verifyJWT } from "@/auf_next";
 import { devices } from "@/db/schema.mjs";
 import { eq } from "drizzle-orm";
 import { db } from "@/db/db.mjs";

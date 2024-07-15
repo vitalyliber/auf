@@ -5,7 +5,7 @@ import { appUrl, onlineAtCookieName, tokenName } from "@/auf_next/constants";
 import { redirect } from "next/navigation";
 import { isEqual } from "lodash";
 import createUserJwtObject from "@/auf_next/createUserJwtObject";
-import { createJWT } from "@/auf_next/jwt";
+import { createJWT } from "@/auf_next";
 import {
   fetchCurrentUser,
   logoutAction,

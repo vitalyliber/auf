@@ -6,7 +6,7 @@ import { and, count, eq } from "drizzle-orm";
 import { devices, doors, users } from "@/db/schema.mjs";
 import { db } from "@/db/db.mjs";
 import { cookies } from "next/headers";
-import { createJWT, verifyJWT } from "@/auf_next/jwt";
+import { createJWT, verifyJWT } from "@/auf_next";
 import isDev from "@/utils/isDev";
 import createUserJwtObject from "@/auf_next/createUserJwtObject";
 import { adminAppName } from "@/auf_next";

@@ -5,6 +5,10 @@ export default function createUserJwtObject({
   appId,
   roles,
 }) {
+  if (!id || !email || !deviceId || !appId) {
+    throw("You should have included some parameters when creating the JWT object");
+  }
+
   return {
     id,
     email,

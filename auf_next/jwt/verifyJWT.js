@@ -1,5 +1,4 @@
 import * as jose from "jose";
-const alg = "HS256";
 
 export async function verifyJWT(token) {
   try {

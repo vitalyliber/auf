@@ -14,6 +14,11 @@ It can be generated using the code below:
 openssl rand -base64 32
 ```
 
+Set also the NEXT_PUBLIC_APP_ENV.
+```bash
+NEXT_PUBLIC_APP_ENV=production
+```
+
 ```jsx
 import { AuthBtnServer } from "auf-next";
 

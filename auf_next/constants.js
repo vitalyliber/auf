@@ -11,7 +11,7 @@ export const internalTokenName = "internal_auth_token";
 
 export const temporaryTokenName = "temporary_auth_token";
 
-const productionAppUrl = "https://auf.casply.com";
+export const productionAppUrl = "https://auf.casply.com";
 const developmentAppUrl = "http://localhost:3000";
 
 export const appUrl =

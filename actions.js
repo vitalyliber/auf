@@ -10,6 +10,7 @@ import { createJWT, verifyJWT } from "@/auf_next";
 import isDev from "@/utils/isDev";
 import createUserJwtObject from "@/auf_next/createUserJwtObject";
 import { adminAppName } from "@/auf_next";
+import nodemailer from "nodemailer";
 
 export async function getOrCreateUser(email, doorName = adminAppName) {
   const door = await db.query.doors.findFirst({
@@ -33,24 +34,50 @@ export async function sendAuthCodeAction(email, appName) {
   // ten minutes
   const cookiesStore = cookies();
   const code = Math.floor(1000 + Math.random() * 9000);
-  const status = isDev() ? true : "await sendCodeMailer(code, email)";
-  if (status) {
-    const result = await getOrCreateUser(email, appName);
-    // @TODO Handle the negative result of operation
-    const auth = await createJWT({ code, email, appName });
-    cookiesStore.set("auth", auth, { maxAge: 10 * 60 });
-    return {
-      status: "success",
-      title: isDev()
-        ? `Dev authorization code: ${code}`
-        : "A confirmation code has been sent to your email",
-    };
+  const result = await getOrCreateUser(email, appName);
+  // @TODO Handle the negative result of operation
+  const auth = await createJWT({ code, email, appName });
+  cookiesStore.set("auth", auth, { maxAge: 10 * 60 });
+
+  let title = "The confirmation code has been sent to your email";
+  if (isDev()) {
+    title = `Dev authorization code: ${code}`;
   } else {
-    return {
-      status: "error",
-      title: "Something went wrong. Please try again later",
+    const senderEmail = process.env.MAILER_USER;
+    const text = `Hello ${email},\n\nYour authentication code:\n${code}`;
+    let transporter = nodemailer.createTransport({
+      host: process.env.MAILER_HOST,
+      port: 587,
+      secure: false, // true для SSL
+      auth: {
+        user: senderEmail,
+        pass: process.env.MAILER_PASS,
+      },
+    });
+
+    let mailOptions = {
+      from: `Auf <${senderEmail}>`,
+      to: email,
+      subject: "Your authentication code",
+      text,
     };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email отправлен: " + info.response);
+      }
+    });
   }
+  return {
+    status: "success",
+    title,
+  };
+  // return {
+  //   status: "error",
+  //   title: "Something went wrong. Please try again later",
+  // };
 }
 
 export async function confirmationAction(code, email, appName) {

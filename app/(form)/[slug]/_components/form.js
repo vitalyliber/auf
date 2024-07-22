@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { confirmationAction, sendAuthCodeAction } from "@/actions";
 import LoginIssues from "@/app/(form)/[slug]/_components/login-issues";
-import { adminAppName, appUrl, temporaryTokenName } from "@/auf_next";
+import { temporaryTokenName } from "@/auf_next";
 
 export default function Form({ appName }) {
   const router = useRouter();

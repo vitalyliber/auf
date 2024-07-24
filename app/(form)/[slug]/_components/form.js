@@ -47,14 +47,17 @@ export default function Form({ appName }) {
   const handleConfirmation = useCallback(async () => {
     const res = await confirmationAction(inputCode, email, appName);
     if (res.status === "success") {
+      const redirectUrl = searchParams.get("redirect_url")
       let redirectUrlQuery = "";
 
       if (searchParams.get("redirect_url")) {
-        redirectUrlQuery = `&redirect_url=${searchParams.get("redirect_url")}`;
+        redirectUrlQuery = `&redirect_url=${redirectUrl}`;
       }
 
+      const originUrl = new URL(redirectUrl).origin;
+
       router.push(
-        `/api/auf?${temporaryTokenName}=${res.tmpToken}${redirectUrlQuery}`,
+        `${originUrl}/api/auf?${temporaryTokenName}=${res.tmpToken}${redirectUrlQuery}`,
       );
       router.refresh();
     }

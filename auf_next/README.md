@@ -19,7 +19,7 @@ Create a route.js file.
 ```js
 // app/api/auf/route.js
 
-import { fetchToken } from "@/auf_next";
+import { fetchToken } from "auf-next";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {

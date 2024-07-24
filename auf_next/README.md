@@ -28,11 +28,19 @@ export async function GET(request) {
 }
 ```
 
+Register the app on the Auf dashboard.
+
+Use the registered appName in an AuthBtn component.
+
 ```jsx
 import { AuthBtn } from "auf-next";
 
 <AuthBtn
-  redirectUrl={`https://my-site.com/dashboard`}
+  redirectUrl={
+    process.env.NODE_ENV === "production"
+      ? "https://my-site.com"
+      : "http://localhost:3000"
+  }
   appName="my-site"
   SignInComponent={
     <div className="btn">Sign in</div>

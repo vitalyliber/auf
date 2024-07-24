@@ -1,6 +1,6 @@
 {
   "name": "auf-next",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "Auth for modern applications",
   "main": "index.js",
   "keywords": [
@@ -12,9 +12,9 @@
   "author": "Vtaly Liber <zenamax@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/your-username/your-repo/issues"
+    "url": "https://auf.casply.com/"
   },
-  "homepage": "https://github.com/your-username/your-repo#readme",
+  "homepage": "https://auf.casply.com/",
   "dependencies": {
     "jose": "*",
     "fast-deep-equal": "*"

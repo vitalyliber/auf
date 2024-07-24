@@ -1,6 +1,6 @@
 # Auf Auth Next
 
-The Auf SDK for Next.js.
+The [Auf](https://auf.casply.com) SDK for Next.js.
 
 This library requires the JWT_SECRET_KEY environment variable.
 
@@ -14,15 +14,24 @@ It can be generated using the code below:
 openssl rand -base64 32
 ```
 
-Set also the NEXT_PUBLIC_APP_ENV.
-```bash
-NEXT_PUBLIC_APP_ENV=production
+Create a route.js file.
+
+```js
+// app/api/auf/route.js
+
+import { fetchToken } from "@/auf_next";
+import { NextResponse } from "next/server";
+
+export async function GET(request) {
+  const redirectUrl = await fetchToken(request)
+  return NextResponse.redirect(redirectUrl);
+}
 ```
 
 ```jsx
-import { AuthBtnServer } from "auf-next";
+import { AuthBtn } from "auf-next";
 
-<AuthBtnServer
+<AuthBtn
   redirectUrl={`https://my-site.com/dashboard`}
   appName="my-site"
   SignInComponent={

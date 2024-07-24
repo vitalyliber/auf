@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 import useCurrentUser from "./useCurrentUser";
 import useUpdateOnlineAt from "./useUpdateOnlineAt";
 
-export default function AuthBtnClient({
+export default function AuthBtn({
   SignInComponent,
   SignOutComponent,
   appName,

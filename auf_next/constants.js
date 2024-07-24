@@ -12,10 +12,8 @@ export const internalTokenName = "internal_auth_token";
 export const temporaryTokenName = "temporary_auth_token";
 
 export const productionAppUrl = "https://auf.casply.com";
-const developmentAppUrl = "http://localhost:3000";
 
-export const appUrl =
-  process.env.NEXT_PUBLIC_APP_ENV === "development" ? developmentAppUrl : productionAppUrl;
+export const appUrl = productionAppUrl || "http://localhost:3000";
 
 export const adminAppName = "auf"
 

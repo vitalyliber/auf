@@ -10,7 +10,6 @@ import {
   setApiTokenToCookies,
   setInternalTokenToCookies,
 } from "./actions";
-import { NextResponse } from "next/server";
 
 export async function fetchToken(request) {
   const { searchParams } = new URL(request.url);
@@ -38,9 +37,9 @@ export async function fetchToken(request) {
 
         const redirectUrl = searchParams.get("redirect_url");
         if (redirectUrl) {
-          return NextResponse.redirect(redirectUrl);
+          return redirectUrl;
         } else {
-          return NextResponse.redirect(new URL("/", request.url));
+          return new URL("/", request.url);
         }
       }
     }

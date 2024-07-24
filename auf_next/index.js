@@ -1,6 +1,5 @@
 export * from "./constants";
-export { default as AuthBtnClient } from "./auth_btn_client";
-export { default as AuthBtnServer } from "./auth_btn_server";
+export { default as AuthBtn } from "./auth_btn";
 export * from "./actions";
 export * from "./updateOnlineAt";
 export * from "./jwt";

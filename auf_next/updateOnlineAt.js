@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { appUrl, onlineAtCookieName, tokenName } from "@/auf_next/constants";
+import { appUrl, onlineAtCookieName, tokenName } from "./constants";
 import { redirect } from "next/navigation";
 import isEqual from "fast-deep-equal";
 import createUserJwtObject from "./createUserJwtObject";

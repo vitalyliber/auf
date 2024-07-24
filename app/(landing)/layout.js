@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "@/app/globals.css";
-import { adminAppName, appUrl, AuthBtnServer } from "@/auf_next";
+import { adminAppName, appUrl, AuthBtn } from "@/auf_next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
             </nav>
           </div>
           <div className="flex space-x-5 justify-end items-end md:items-center">
-            <AuthBtnServer
+            <AuthBtn
               redirectUrl={`${appUrl}/dashboard`}
               appName={adminAppName}
               SignInComponent={

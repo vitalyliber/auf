@@ -64,12 +64,6 @@ export default function Form({ appName }) {
   }, [inputCode, router, email, appName, toast]);
 
   useRunOnce(() => {
-    if (searchParams.get("redirect_url")) {
-      toast.success("Login to continue");
-    }
-  }, [toast, searchParams]);
-
-  useRunOnce(() => {
     emailInput.current?.focus();
   }, []);
 

@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { internalTokenName, tokenName } from "@/auf_next";
+import { internalTokenName, tokenName } from "../constants";
 
 export async function logoutAction() {
   const cookiesStore = cookies();

@@ -4,8 +4,8 @@ import { appUrl, tokenName } from "./constants";
 import { logoutAction } from "./actions";
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
-import useCurrentUser from "@/auf_next/useCurrentUser";
-import useUpdateOnlineAt from "@/auf_next/useUpdateOnlineAt";
+import useCurrentUser from "./useCurrentUser";
+import useUpdateOnlineAt from "./useUpdateOnlineAt";
 
 export default function AuthBtnClient({
   SignInComponent,

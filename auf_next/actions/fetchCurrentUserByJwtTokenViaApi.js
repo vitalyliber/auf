@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { appUrl, tokenName } from "@/auf_next";
+import { appUrl, tokenName } from "../constants";
 
 export const fetchCurrentUserByJwtTokenViaApi = async () => {
   const cookiesStore = cookies();

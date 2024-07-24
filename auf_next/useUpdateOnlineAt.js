@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { updateOnlineAt } from "@/auf_next";
+import { updateOnlineAt } from "./updateOnlineAt";
 
 export default function useUpdateOnlineAt() {
   useEffect(() => {

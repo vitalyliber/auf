@@ -1,11 +1,15 @@
 import {
   appUrl,
+  temporaryTokenName,
+} from "./constants";
+import {
   createJWT,
+} from "./jwt";
+import {
   fetchCurrentUserByJwtTokenViaApi,
   setApiTokenToCookies,
   setInternalTokenToCookies,
-  temporaryTokenName,
-} from "@/auf_next";
+} from "./actions";
 import { NextResponse } from "next/server";
 
 export async function fetchToken(request) {

@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { internalTokenName } from "@/auf_next";
+import { internalTokenName } from "../constants";
 
 export async function setInternalTokenToCookies(token) {
   if (!token) return;

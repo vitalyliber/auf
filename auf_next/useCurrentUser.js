@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchCurrentUser } from "@/auf_next/actions";
+import { fetchCurrentUser } from "./actions";
 
 export default function useCurrentUser() {
   const [user, setUser] = useState({});

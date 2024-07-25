@@ -18,7 +18,9 @@ export default function AuthBtn({
   const user = useCurrentUser();
 
   const handleLogout = async () => {
-    await fetch(`${appUrl}/api/tokens?${tokenName}=${user.apiToken}`, {
+    const originUrl = new URL(redirectUrl).origin;
+
+    await fetch(`${originUrl}/api/tokens?${tokenName}=${user.apiToken}`, {
       method: "DELETE",
     });
     await logoutAction();

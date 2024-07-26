@@ -35,7 +35,7 @@ export default function AuthBtn({
         <div onClick={handleLogout}>{SignOutComponent}</div>
       )}
       {user.isLoggedIn && SignedInComponent && (
-        <div onClick={handleLogout}>{SignedInComponent}</div>
+        <>{SignedInComponent}</>
       )}
       {!user.isLoggedIn && (
         <Link

@@ -2,32 +2,48 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "./actions";
 
 let cachedUser = null;
-let isFetching = false;
+let subscribers = [];
 
 export default function useCurrentUser() {
   const [user, setUser] = useState(cachedUser);
   const [loading, setLoading] = useState(!cachedUser);
 
-  const getAuthToken = useCallback(async () => {
-    if (cachedUser || isFetching) return;
+  const notifySubscribers = useCallback((userData) => {
+    subscribers.forEach((callback) => callback(userData));
+  }, []);
 
-    isFetching = true;
+  const getAuthToken = useCallback(async () => {
+    if (cachedUser) return;
+
     try {
       const userData = await fetchCurrentUser();
       cachedUser = userData;
       setUser(userData);
+      notifySubscribers(userData);
     } catch (error) {
       console.error("Failed to fetch user", error);
     } finally {
-      isFetching = false;
       setLoading(false);
     }
-  }, []);
+  }, [notifySubscribers]);
 
   useEffect(() => {
     if (!cachedUser) {
-      getAuthToken().catch(() => setLoading(false));
+      getAuthToken();
+    } else {
+      setUser(cachedUser);
+      setLoading(false);
     }
+
+    const updateState = (userData) => {
+      setUser(userData);
+    };
+
+    subscribers.push(updateState);
+
+    return () => {
+      subscribers = subscribers.filter((callback) => callback !== updateState);
+    };
   }, [getAuthToken]);
 
   return { isLoggedIn: !!user?.id, ...user, loading };

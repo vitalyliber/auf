@@ -1,6 +1,6 @@
 {
   "name": "auf-next",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Auth for modern applications",
   "main": "index.js",
   "keywords": [
@@ -17,6 +17,8 @@
   "homepage": "https://auf.casply.com/",
   "dependencies": {
     "jose": "*",
+    "@nanostores/react": "*",
+    "nanostores": "*",
     "fast-deep-equal": "*"
   },
   "devDependencies": {}

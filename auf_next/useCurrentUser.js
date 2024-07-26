@@ -1,50 +1,32 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { fetchCurrentUser } from "./actions";
 
-let cachedUser = null;
-let subscribers = [];
+import { useStore } from "@nanostores/react";
+import { $user, addUser } from "./store";
+let isFetching = false;
 
 export default function useCurrentUser() {
-  const [user, setUser] = useState(cachedUser);
-  const [loading, setLoading] = useState(!cachedUser);
+  const user = useStore($user);
 
-  const notifySubscribers = useCallback((userData) => {
-    subscribers.forEach((callback) => callback(userData));
-  }, []);
+  const fetchUser = async () => {
+    if (isFetching) return;
+    console.log("Fetching the Auf user...");
 
-  const getAuthToken = useCallback(async () => {
-    if (cachedUser) return;
-
+    isFetching = true;
     try {
       const userData = await fetchCurrentUser();
-      cachedUser = userData;
-      setUser(userData);
-      notifySubscribers(userData);
+      addUser(userData);
+      console.log("The Auf user fetched successfully!");
     } catch (error) {
-      console.error("Failed to fetch user", error);
+      console.error("Failed to fetch the Auth user", error);
     } finally {
-      setLoading(false);
+      isFetching = false;
     }
-  }, [notifySubscribers]);
+  };
 
   useEffect(() => {
-    if (!cachedUser) {
-      getAuthToken();
-    } else {
-      setUser(cachedUser);
-      setLoading(false);
-    }
+    fetchUser().catch(() => (isFetching = false));
+  }, []);
 
-    const updateState = (userData) => {
-      setUser(userData);
-    };
-
-    subscribers.push(updateState);
-
-    return () => {
-      subscribers = subscribers.filter((callback) => callback !== updateState);
-    };
-  }, [getAuthToken]);
-
-  return { isLoggedIn: !!user?.id, ...user, loading };
+  return { isLoggedIn: !!user?.id, ...user, loading: isFetching };
 }

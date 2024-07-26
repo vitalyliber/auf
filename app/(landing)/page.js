@@ -1,3 +1,5 @@
+import { adminAppName, appUrl, AuthBtn } from "@/auf_next";
+
 export default async function Home() {
   return (
     <main className="px-6 md:px-0">
@@ -14,8 +16,18 @@ export default async function Home() {
         </p>
       </div>
       <div className="flex items-center md:justify-center flex-col md:flex-row mt-14 md:space-x-5 space-y-5 md:space-y-0">
-        <div className="btn-black shrink-0">Talk to us</div>
-        <div className="btn-gray shrink-0">Start for free</div>
+        <a className="btn-black shrink-0" href="mailto:admin@mail.casply.com">
+          Talk to us
+        </a>
+
+        <AuthBtn
+          redirectUrl={`${appUrl}/dashboard`}
+          appName={adminAppName}
+          SignInComponent={
+            <div className="btn-gray shrink-0">Start for free</div>
+          }
+          SignOutComponent={<div className="btn block">Sign Out</div>}
+        />
       </div>
     </main>
   );

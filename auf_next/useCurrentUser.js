@@ -1,19 +1,34 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchCurrentUser } from "./actions";
 
+let cachedUser = null;
+let isFetching = false;
+
 export default function useCurrentUser() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(cachedUser);
+  const [loading, setLoading] = useState(!cachedUser);
 
   const getAuthToken = useCallback(async () => {
-    const userData = await fetchCurrentUser();
+    if (cachedUser || isFetching) return;
 
-    setUser(userData);
+    isFetching = true;
+    try {
+      const userData = await fetchCurrentUser();
+      cachedUser = userData;
+      setUser(userData);
+    } catch (error) {
+      console.error("Failed to fetch user", error);
+    } finally {
+      isFetching = false;
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
-    getAuthToken().catch();
+    if (!cachedUser) {
+      getAuthToken().catch(() => setLoading(false));
+    }
   }, [getAuthToken]);
 
-
-  return { isLoggedIn: !!user?.id, ...user };
+  return { isLoggedIn: !!user?.id, ...user, loading };
 }

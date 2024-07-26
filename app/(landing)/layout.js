@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
           <span className="underline ml-2">Learn more</span>
         </div>
         <header className="grid grid-cols-3 py-10 px-6 md:px-14">
-          <div className="text-3xl">Auf.</div>
+          <div className="text-3xl flex items-center">Auf.</div>
           <div>
             <nav className="hidden md:block">
               <ul className="flex justify-center">
@@ -37,14 +37,14 @@ export default function RootLayout({ children }) {
               redirectUrl={`${appUrl}/dashboard`}
               appName={adminAppName}
               SignInComponent={
-                <div className="btn hidden md:block">Sign in</div>
+                <div className="btn block">Sign in</div>
               }
               SignOutComponent={
-                <div className="btn hidden md:block">Sign Out</div>
+                <div className="btn block">Sign Out</div>
               }
             />
             <div className="btn-black hidden md:block">Start for free</div>
-            <div className="md:hidden text-zinc-600">Menu</div>
+            <div className="hidden text-zinc-600">Menu</div>
           </div>
         </header>
         {children}

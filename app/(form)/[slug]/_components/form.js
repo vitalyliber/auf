@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { confirmationAction, sendAuthCodeAction } from "@/actions";
 import LoginIssues from "@/app/(form)/[slug]/_components/login-issues";
 import { temporaryTokenName } from "@/auf_next";
+import PoweredBy from "@/app/(form)/[slug]/_components/powered-by";
 
 export default function Form({ appName }) {
   const router = useRouter();
@@ -136,6 +137,7 @@ export default function Form({ appName }) {
           )}
 
           <LoginIssues />
+          <PoweredBy />
         </div>
       </form>
     </>

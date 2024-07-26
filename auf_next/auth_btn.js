@@ -3,18 +3,19 @@
 import { appUrl, tokenName } from "./constants";
 import { logoutAction } from "./actions";
 import Link from "next/link";
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 import useCurrentUser from "./useCurrentUser";
 import useUpdateOnlineAt from "./useUpdateOnlineAt";
 
 export default function AuthBtn({
   SignInComponent,
   SignOutComponent,
+  SignedInComponent,
   appName,
-  redirectUrl
+  redirectUrl,
 }) {
-  const pathname = usePathname()
-  useUpdateOnlineAt()
+  const pathname = usePathname();
+  useUpdateOnlineAt();
   const user = useCurrentUser();
 
   const handleLogout = async () => {
@@ -30,10 +31,18 @@ export default function AuthBtn({
 
   return (
     <>
-      {user.isLoggedIn ? (
+      {user.isLoggedIn && !SignedInComponent && (
         <div onClick={handleLogout}>{SignOutComponent}</div>
-      ) : (
-        <Link href={`${appUrl}/${appName}?redirect_url=${redirectUrl || pathname}`}>{SignInComponent}</Link>
+      )}
+      {user.isLoggedIn && SignedInComponent && (
+        <div onClick={handleLogout}>{SignedInComponent}</div>
+      )}
+      {!user.isLoggedIn && (
+        <Link
+          href={`${appUrl}/${appName}?redirect_url=${redirectUrl || pathname}`}
+        >
+          {SignInComponent}
+        </Link>
       )}
     </>
   );

@@ -23,7 +23,7 @@ import { fetchToken } from "auf-next";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
-  const redirectUrl = await fetchToken(request)
+  const redirectUrl = await fetchToken(request);
   return NextResponse.redirect(redirectUrl);
 }
 ```
@@ -42,13 +42,26 @@ import { AuthBtn } from "auf-next";
       : "http://localhost:3000"
   }
   appName="my-site"
-  SignInComponent={
-    <div className="btn">Sign in</div>
+  SignInComponent={<div className="btn">Sign in</div>}
+  SignOutComponent={<div className="btn">Sign Out</div>}
+/>;
+```
+
+```jsx
+import { AuthBtn } from "auf-next";
+
+<AuthBtn
+  redirectUrl={
+    process.env.NODE_ENV === "production"
+      ? "https://my-site.com"
+      : "http://localhost:3000"
   }
-  SignOutComponent={
-    <div className="btn">Sign Out</div>
+  appName="my-site"
+  SignInComponent={<div className="btn">Sign in</div>}
+  SignedInComponent={
+    <div className="btn">Show some content for the signed-in users</div>
   }
-/>
+/>;
 ```
 
 ```jsx
@@ -57,12 +70,14 @@ import { fetchCurrentUser } from "auf_next";
 export default async function ShowCurrentUser() {
   const currentUser = await fetchCurrentUser();
 
-  return <div>
-    <p>User ID: {currentUser.id}</p>
-    <p>Email: {currentUser.email}</p>
-    <p>Device ID: {currentUser.deviceId}</p>
-    <p>App ID: {currentUser.appId}</p>
-    <p>Roles: {currentUser.roles}</p>
-  </div>
+  return (
+    <div>
+      <p>User ID: {currentUser.id}</p>
+      <p>Email: {currentUser.email}</p>
+      <p>Device ID: {currentUser.deviceId}</p>
+      <p>App ID: {currentUser.appId}</p>
+      <p>Roles: {currentUser.roles}</p>
+    </div>
+  );
 }
 ```

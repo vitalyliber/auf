@@ -11,20 +11,22 @@ export default async function removeRole(_, formData) {
   const userId = formData.get("userId");
   const currentUser = await fetchCurrentUser();
 
-  console.log(name, userId, currentUser);
-
   const user = await db.query.users.findFirst({
-    where: and(eq(users.id, userId), eq(users.doorId, currentUser.appId)),
+    where: eq(users.id, userId),
   });
+
+  const door = await db.query.doors.findFirst({
+    where: eq(doors.id, user.doorId),
+  });
+
+  if (currentUser.id !== door.userId) {
+    return { message: `You don't have access to the App with id "${name}"` };
+  }
 
   const roles = user.roles;
   delete roles[name];
 
   await db.update(users).set({ roles }).where(eq(users.id, user.id));
-
-  const door = await db.query.doors.findFirst({
-    where: eq(doors.id, user.doorId),
-  });
 
   revalidatePath(`/dashboard/apps/${door.name}/users/${user.id}/profile`);
 }

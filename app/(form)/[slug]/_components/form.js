@@ -12,6 +12,8 @@ import LoginIssues from "@/app/(form)/[slug]/_components/login-issues";
 import { temporaryTokenName } from "@/auf_next";
 import PoweredBy from "@/app/(form)/[slug]/_components/powered-by";
 
+let confirmationIsLoading = false;
+
 export default function Form({ appName }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -46,10 +48,15 @@ export default function Form({ appName }) {
   );
 
   const handleConfirmation = useCallback(async () => {
+    if (confirmationIsLoading) return;
+    confirmationIsLoading = true
+
     const res = await confirmationAction(inputCode, email, appName);
     if (res.status === "success") {
-      const redirectUrl = searchParams.get("redirect_url")
+      const redirectUrl = searchParams.get("redirect_url");
       let redirectUrlQuery = "";
+
+      confirmationIsLoading = false
 
       if (searchParams.get("redirect_url")) {
         redirectUrlQuery = `&redirect_url=${redirectUrl}`;
@@ -63,6 +70,7 @@ export default function Form({ appName }) {
       router.refresh();
     }
     if (res.status === "error") {
+      confirmationIsLoading = false
       toast.error(res.title);
     }
   }, [inputCode, router, email, appName, toast]);

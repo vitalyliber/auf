@@ -10,6 +10,7 @@ import NoResults from "@/app/dashboard/_components/no_results";
 
 export async function DevicesList({ userId, email, appName }) {
   const devicesList = await db.query.devices.findMany({
+    orderBy: (devices, { desc }) => [desc(devices.id), desc(devices.onlineAt)],
     where: eq(devices.userId, userId),
   });
 

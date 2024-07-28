@@ -6,6 +6,10 @@ import { doors } from "@/db/schema.mjs";
 import { fetchCurrentUser } from "@/auf_next";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Users",
+};
+
 export default async function Dashboard({ params, searchParams }) {
   const currentUser = await fetchCurrentUser();
 

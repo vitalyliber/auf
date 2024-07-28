@@ -6,6 +6,10 @@ import { doors, users } from "@/db/schema.mjs";
 import { redirect } from "next/navigation";
 import { DevicesList } from "@/app/dashboard/apps/[slug]/users/[user_id]/_components/devices_list";
 
+export const metadata = {
+  title: "Sessions",
+};
+
 export default async function DevicesPage({ params }) {
   const currentUser = await fetchCurrentUser();
 

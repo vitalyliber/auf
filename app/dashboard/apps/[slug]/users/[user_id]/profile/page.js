@@ -9,6 +9,10 @@ import RoleForm from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_compo
 import RoleBadge from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_components/role_badge";
 import cn from "@/app/(landing)/_components/cn";
 
+export const metadata = {
+  title: "User profile",
+};
+
 export default async function UserProfilePage({ params }) {
   const currentUser = await fetchCurrentUser();
 

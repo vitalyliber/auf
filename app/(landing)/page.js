@@ -1,5 +1,9 @@
 import { adminAppName, appUrl, AuthBtn } from "@/auf_next";
 
+export const metadata = {
+  title: "Auth for modern applications | Auf",
+};
+
 export default async function Home() {
   return (
     <main className="px-6 md:px-0">

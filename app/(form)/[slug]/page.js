@@ -5,6 +5,10 @@ import Form from "@/app/(form)/[slug]/_components/form";
 import { redirect } from "next/navigation";
 import { adminAppName, productionAppUrl } from "@/auf_next";
 
+export const metadata = {
+  title: "Sign In",
+};
+
 export default async function LoginPage({ params }) {
   let door = await db.query.doors.findFirst({
     where: eq(doors.name, params.slug),

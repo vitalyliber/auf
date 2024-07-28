@@ -5,9 +5,15 @@ import { adminAppName, appUrl, AuthBtn } from "@/auf_next";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const metaTitle = "Auf"
+
 export const metadata = {
-  title: "Auf - Auth for modern applications",
-  description: "Customer identity and access management in a few lines of code.",
+  metadataBase: new URL("https://auf.casply.com"),
+  title: {
+    template: `%s | ${metaTitle}`,
+    default: metaTitle
+  },
+  description: "Customer identity and access management in a few lines of code",
 };
 
 export default function RootLayout({ children }) {

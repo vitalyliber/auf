@@ -86,8 +86,7 @@ export async function sendAuthCodeAction(email, appName) {
 }
 
 export async function confirmationAction(code, email, appName) {
-  const cookiesStore = cookies();
-  const auth = cookiesStore.get("auth")?.value;
+  const auth = cookies().get("auth")?.value;
   const {
     code: savedCode,
     email: savedEmail,

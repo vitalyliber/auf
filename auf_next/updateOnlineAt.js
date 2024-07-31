@@ -20,7 +20,7 @@ export async function updateOnlineAt() {
   const updated = cookiesStore.get(onlineAtCookieName);
 
   if (!updated) {
-    cookiesStore().set({
+    cookiesStore.set({
       name: onlineAtCookieName,
       value: "protect_server_from_ddos",
       maxAge: 5 * 60,

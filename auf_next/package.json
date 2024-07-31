@@ -1,6 +1,6 @@
 {
   "name": "auf-next",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "Auth for modern applications",
   "main": "index.js",
   "keywords": [

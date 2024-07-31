@@ -1,7 +1,5 @@
 {
-  "id": "410bd7ca-ff67-45c4-9fc9-69ce6ba63e64",
-  "prevId": "cd613b27-995e-474f-86ca-908185c5469f",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.devices": {
@@ -94,15 +92,15 @@
         "doors_user_id_users_id_fk": {
           "name": "doors_user_id_users_id_fk",
           "tableFrom": "doors",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -151,11 +149,11 @@
       "uniqueConstraints": {
         "door_user": {
           "name": "door_user",
-          "nullsNotDistinct": false,
           "columns": [
             "email",
             "door_id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
@@ -163,8 +161,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "410bd7ca-ff67-45c4-9fc9-69ce6ba63e64",
+  "prevId": "cd613b27-995e-474f-86ca-908185c5469f"
 }

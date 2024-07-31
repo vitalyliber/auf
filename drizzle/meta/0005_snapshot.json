@@ -1,7 +1,5 @@
 {
-  "id": "cd613b27-995e-474f-86ca-908185c5469f",
-  "prevId": "d6f8e7c2-1831-4cdb-85c1-039ff0207fed",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.devices": {
@@ -131,11 +129,11 @@
       "uniqueConstraints": {
         "door_user": {
           "name": "door_user",
-          "nullsNotDistinct": false,
           "columns": [
             "email",
             "door_id"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
@@ -143,8 +141,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "cd613b27-995e-474f-86ca-908185c5469f",
+  "prevId": "d6f8e7c2-1831-4cdb-85c1-039ff0207fed"
 }

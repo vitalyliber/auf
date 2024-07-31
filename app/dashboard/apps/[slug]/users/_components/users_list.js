@@ -74,6 +74,7 @@ export default async function UsersList({
                 <Th>Created at</Th>
                 <Th>Online at</Th>
                 <Th>Devices</Th>
+                <Th>Confirmed</Th>
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-slate-800">
@@ -94,6 +95,7 @@ export default async function UsersList({
                       {item.devicesCount}
                     </Link>
                   </Td>
+                  <Td>{item.confirmed ? "✅" : "☑️"}</Td>
                 </tr>
               ))}
             </tbody>

@@ -58,7 +58,7 @@ export const devices = pgTable("devices", {
   onlineAt: timestamp("online_at").notNull().defaultNow(),
   userId: integer("user_id").notNull(),
   userAgent: jsonb("user_agent").default({}),
-  token: varchar("token").notNull(),
+  token: varchar("token").unique().notNull(),
 });
 
 export const devicesRelations = relations(devices, ({ one }) => ({

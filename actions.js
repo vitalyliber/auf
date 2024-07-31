@@ -32,12 +32,17 @@ export async function getOrCreateUser(email, doorName = adminAppName) {
 
 export async function sendAuthCodeAction(email, appName) {
   // ten minutes
-  const cookiesStore = cookies();
   const code = Math.floor(1000 + Math.random() * 9000);
   const result = await getOrCreateUser(email, appName);
   // @TODO Handle the negative result of operation
   const auth = await createJWT({ code, email, appName });
-  cookiesStore.set("auth", auth, { maxAge: 10 * 60 });
+  cookies().set({
+    name: "auth",
+    value: auth,
+    maxAge: 10 * 60,
+    httpOnly: true,
+    path: "/",
+  });
 
   let title = "The confirmation code has been sent to your email";
   if (isDev()) {

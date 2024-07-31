@@ -5,7 +5,12 @@ import { tokenName } from "../constants";
 
 export async function setApiTokenToCookies(token) {
   if (!token) return;
-  const cookiesStore = cookies();
 
-  await cookiesStore.set(tokenName, token, { maxAge: 31536000 });
+  await cookies().set({
+    name: tokenName,
+    value: token,
+    maxAge: 31536000,
+    httpOnly: true,
+    path: "/",
+  });
 }

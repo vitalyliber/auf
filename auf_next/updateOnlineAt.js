@@ -20,8 +20,12 @@ export async function updateOnlineAt() {
   const updated = cookiesStore.get(onlineAtCookieName);
 
   if (!updated) {
-    cookiesStore.set(onlineAtCookieName, "protect_server_from_ddos", {
+    cookiesStore().set({
+      name: onlineAtCookieName,
+      value: "protect_server_from_ddos",
       maxAge: 5 * 60,
+      httpOnly: true,
+      path: "/",
     });
 
     // Update an online status

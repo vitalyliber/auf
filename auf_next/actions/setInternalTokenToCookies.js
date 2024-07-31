@@ -5,7 +5,12 @@ import { internalTokenName } from "../constants";
 
 export async function setInternalTokenToCookies(token) {
   if (!token) return;
-  const cookiesStore = cookies();
 
-  await cookiesStore.set(internalTokenName, token, { maxAge: 31536000 });
+  await cookies().set({
+    name: internalTokenName,
+    value: token,
+    maxAge: 31536000,
+    httpOnly: true,
+    path: "/",
+  });
 }

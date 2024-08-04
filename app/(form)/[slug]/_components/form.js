@@ -45,7 +45,7 @@ export default function Form({ appName }) {
     [appName],
   );
 
-  const handleConfirmation = useCallback(async () => {
+  const handleConfirmation = async () => {
     const res = await confirmationAction(inputCode, email, appName);
     if (res.status === "success") {
       const redirectUrl = searchParams.get("redirect_url");
@@ -65,7 +65,7 @@ export default function Form({ appName }) {
     if (res.status === "error") {
       toast.error(res.title);
     }
-  }, [inputCode, router, email, appName, toast]);
+  };
 
   useRunOnce(() => {
     emailInput.current?.focus();
@@ -75,7 +75,7 @@ export default function Form({ appName }) {
     if (inputCode?.length === 4) {
       handleConfirmation();
     }
-  }, [inputCode, handleConfirmation]);
+  }, [inputCode]);
 
   return (
     <>

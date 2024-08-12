@@ -1,8 +1,9 @@
 "use client";
 
 import * as EmailValidator from "email-validator";
+import { useDebouncedCallback } from 'use-debounce';
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import useRunOnce from "@/hooks/useRunOnce";
 import { useRouter } from "next/navigation";
@@ -16,7 +17,6 @@ export default function Form({ appName }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState(null);
-  const [inputCode, setInputCode] = useState(null);
   const searchParams = useSearchParams();
   const emailInput = useRef();
   const codeInput = useRef();
@@ -45,7 +45,7 @@ export default function Form({ appName }) {
     [appName],
   );
 
-  const handleConfirmation = async () => {
+  const handleConfirmation = async (inputCode) => {
     const res = await confirmationAction(inputCode, email, appName);
     if (res.status === "success") {
       const redirectUrl = searchParams.get("redirect_url");
@@ -71,11 +71,14 @@ export default function Form({ appName }) {
     emailInput.current?.focus();
   }, []);
 
-  useEffect(() => {
-    if (inputCode?.length === 4) {
-      handleConfirmation();
-    }
-  }, [inputCode]);
+  const debounced = useDebouncedCallback(
+    (value) => {
+      if ((value?.length || 0) === 4) {
+        handleConfirmation(value)
+      }
+    },
+    300
+  );
 
   return (
     <>
@@ -109,14 +112,7 @@ export default function Form({ appName }) {
           {email && (
             <label className="block">
               <input
-                onChange={(e) =>
-                  setInputCode(
-                    (e.target.value?.length || 0) > 4
-                      ? inputCode
-                      : e.target.value,
-                  )
-                }
-                value={inputCode}
+                onChange={(e) => debounced(e.target.value)}
                 ref={codeInput}
                 type="number"
                 name="code"

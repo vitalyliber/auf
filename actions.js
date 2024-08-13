@@ -22,7 +22,7 @@ export async function getOrCreateUser(email, doorName = adminAppName) {
 
   let userData;
   if (!user) {
-    userData = await db.insert(users).values({ email: email, doorId: door.id });
+    userData = await db.insert(users).values({ email: email, doorId: door.id, createdAt: new Date(), onlineAt: new Date() });
   } else {
     userData = user;
   }
@@ -79,10 +79,6 @@ export async function sendAuthCodeAction(email, appName) {
     status: "success",
     title,
   };
-  // return {
-  //   status: "error",
-  //   title: "Something went wrong. Please try again later",
-  // };
 }
 
 export async function confirmationAction(code, email, appName) {
@@ -109,7 +105,7 @@ export async function confirmationAction(code, email, appName) {
       .where(eq(users.id, user.id));
     await db
       .insert(devices)
-      .values({ userId: user.id, token: tmpToken, userAgent: reqUserAgent });
+      .values({ userId: user.id, token: tmpToken, userAgent: reqUserAgent, createdAt: new Date(), onlineAt: new Date() });
 
     await updateUsersDevicesCounter(user.id);
     return {

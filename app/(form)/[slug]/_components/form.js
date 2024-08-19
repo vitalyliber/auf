@@ -23,7 +23,7 @@ export default function Form({ appName }) {
 
   const handleLogin = useCallback(
     async (formData) => {
-      const formDataEmail = formData.get("email");
+      const formDataEmail = formData.get("email")?.toLowerCase?.();
       if (!EmailValidator.validate(formDataEmail)) {
         toast.error("Please enter a valid email");
         return;

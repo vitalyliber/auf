@@ -94,7 +94,7 @@ export default function Form({ appName }) {
         )}
       </h2>
 
-      <form className="mt-4" action={email ? handleConfirmation : handleLogin}>
+      <form className="mt-4" action={email ? () => null : handleLogin}>
         <div className="grid grid-cols-1 gap-4">
           {!email && (
             <label className="block">
@@ -102,6 +102,7 @@ export default function Form({ appName }) {
                 ref={emailInput}
                 placeholder="Email"
                 disabled={email}
+                autoComplete="email"
                 name="email"
                 type="email"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -114,7 +115,9 @@ export default function Form({ appName }) {
               <input
                 onChange={(e) => debounced(e.target.value)}
                 ref={codeInput}
-                type="number"
+                type="tel"
+                pattern="[0-9]*"
+                inputMode="numeric"
                 name="code"
                 placeholder="Code"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"

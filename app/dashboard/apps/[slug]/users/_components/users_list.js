@@ -55,7 +55,13 @@ export default async function UsersList({
 
   return (
     <div className="w-full">
-      <PageTitle title="Users" />
+      <PageTitle
+        title={
+          <span>
+            Users <span className="capitalize">({doorName})</span>
+          </span>
+        }
+      />
       <form action={searchAction} method="GET">
         <SearchInput query={query} />
       </form>
@@ -70,7 +76,6 @@ export default async function UsersList({
             <thead>
               <tr>
                 <Th>Email</Th>
-                <Th>App</Th>
                 <Th>Created at</Th>
                 <Th>Online at</Th>
                 <Th>Devices</Th>
@@ -87,7 +92,6 @@ export default async function UsersList({
                       {item.email}
                     </Link>
                   </Td>
-                  <Td>Auf.</Td>
                   <Td>{fmtDateWithTime(item.createdAt.toString())}</Td>
                   <Td>{fmtDateWithTime(item.onlineAt.toString())}</Td>
                   <Td className="font-semibold capitalize underline underline-offset-4">

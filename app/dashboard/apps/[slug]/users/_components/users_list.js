@@ -71,7 +71,7 @@ export default async function UsersList({
       {currentListCount === 0 && !query && <NoResults />}
 
       {currentListCount > 0 && (
-        <div className="shadow-sm overflow-hidden my-8 w-full">
+        <div className="shadow-sm overflow-hidden my-8 w-full overflow-x-auto whitespace-nowrap">
           <table className="border-collapse table-auto w-full text-sm">
             <thead>
               <tr>

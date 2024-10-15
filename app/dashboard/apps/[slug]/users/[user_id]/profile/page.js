@@ -8,6 +8,7 @@ import PageTitle from "@/app/dashboard/_components/page_title";
 import RoleForm from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_components/role_form";
 import RoleBadge from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_components/role_badge";
 import cn from "@/app/(landing)/_components/cn";
+import Container from "@/app/dashboard/_components/container";
 
 export const metadata = {
   title: "User profile",
@@ -35,7 +36,7 @@ export default async function UserProfilePage({ params }) {
   const roles = Object.keys(user.roles).filter((role) => user.roles[role]);
 
   return (
-    <main className="flex space-x-10 px-16 py-7">
+    <Container>
       <Navigation
         activeCategory="apps"
         subItems={[
@@ -69,6 +70,6 @@ export default async function UserProfilePage({ params }) {
 
         <RoleForm userId={user.id} />
       </div>
-    </main>
+    </Container>
   );
 }

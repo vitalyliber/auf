@@ -5,6 +5,7 @@ import { and, eq } from "drizzle-orm";
 import { doors, users } from "@/db/schema.mjs";
 import { redirect } from "next/navigation";
 import { DevicesList } from "@/app/dashboard/apps/[slug]/users/[user_id]/_components/devices_list";
+import Container from "@/app/dashboard/_components/container";
 
 export const metadata = {
   title: "Sessions",
@@ -30,7 +31,7 @@ export default async function DevicesPage({ params }) {
   });
 
   return (
-    <main className="flex space-x-10 px-16 py-7">
+    <Container>
       <Navigation
         activeCategory="apps"
         subItems={[
@@ -52,6 +53,6 @@ export default async function DevicesPage({ params }) {
         ]}
       />
       <DevicesList userId={user.id} email={user.email} appName={params.slug} />
-    </main>
+    </Container>
   );
 }

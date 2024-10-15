@@ -21,7 +21,7 @@ export async function DevicesList({ userId, email, appName }) {
       {devicesList.length === 0 && <NoResults />}
 
       {devicesList.length > 0 && (
-        <div className="shadow-sm overflow-hidden my-8 w-full">
+        <div className="shadow-sm overflow-hidden overflow-x-auto whitespace-nowrap my-8 w-full">
           <table className="border-collapse table-auto w-full text-sm">
             <thead>
               <tr>

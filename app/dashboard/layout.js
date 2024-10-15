@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <header className="flex justify-between items-center px-16 py-7">
+        <header className="flex justify-between md space-x-0 md:space-x-10 px-5 md:px-16 items-center py-7">
           <Link href="/dashboard">
             <div className="text-3xl">Auf.</div>
           </Link>
@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
             appName={adminAppName}
             SignInComponent={<div className="btn hidden md:block">Sign in</div>}
             SignOutComponent={
-              <div className="btn hidden md:block">Sign Out</div>
+              <div className="btn">Sign Out</div>
             }
           />
         </header>

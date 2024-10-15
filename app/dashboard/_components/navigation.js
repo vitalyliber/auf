@@ -22,7 +22,7 @@ export default async function Navigation({ activeCategory, subItems }) {
   }
 
   return (
-    <div className="w-72">
+    <div className="w-72 hidden md:block">
       {items.length > 1 && (
         <ul className="text-2xl space-y-4">
           {items.map((item) => (

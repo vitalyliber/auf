@@ -5,6 +5,7 @@ import { and, eq } from "drizzle-orm";
 import { doors } from "@/db/schema.mjs";
 import { fetchCurrentUser } from "@/auf_next";
 import { redirect } from "next/navigation";
+import Container from "@/app/dashboard/_components/container";
 
 export const metadata = {
   title: "Users",
@@ -22,7 +23,7 @@ export default async function Dashboard({ params, searchParams }) {
   }
 
   return (
-    <main className="flex space-x-10 px-16 py-7">
+    <Container>
       <Navigation
         activeCategory="apps"
         subItems={[
@@ -40,6 +41,6 @@ export default async function Dashboard({ params, searchParams }) {
         usersCount={door.usersCount}
         page={parseInt(searchParams?.page, 10) || 1}
       />
-    </main>
+    </Container>
   );
 }

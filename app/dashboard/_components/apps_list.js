@@ -63,7 +63,7 @@ export default async function AppsList({ query }) {
       {doorsList.length > 0 || (!!query && <NoSearchResults/>)}
       {doorsList.length > 0 && (
         <>
-          <div className="shadow-sm overflow-hidden my-8 w-full">
+          <div className="shadow-sm overflow-hidden overflow-x-auto whitespace-nowrap my-8 w-full">
             <table className="border-collapse table-auto w-full text-sm">
               <thead>
               <tr>

@@ -11,9 +11,9 @@ import {
 import { relations } from "drizzle-orm";
 
 export const doors = pgTable("doors", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 256 }).notNull(),
-  domain: varchar("domain", { length: 256 }).notNull(),
+  id: serial().primaryKey(),
+  name: varchar({ length: 256 }).notNull(),
+  domain: varchar( { length: 256 }).notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   userId: integer("user_id").references(() => users.id),
   usersCount: integer("users_count").default(0),
@@ -30,14 +30,14 @@ export const doorsRelations = relations(doors, ({ many, one }) => ({
 export const users = pgTable(
   "users",
   {
-    id: serial("id").primaryKey(),
+    id: serial().primaryKey(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
-    email: varchar("email", { length: 256 }).notNull(),
+    email: varchar( { length: 256 }).notNull(),
     doorId: integer("door_id").notNull(),
-    confirmed: boolean("confirmed").default(false),
+    confirmed: boolean().default(false),
     devicesCount: integer("devices_count").default(0),
     onlineAt: timestamp("online_at").notNull().defaultNow(),
-    roles: jsonb("roles").default({}),
+    roles: jsonb().default({}),
   },
   (t) => ({
     unique: unique("door_user").on(t.email, t.doorId),
@@ -53,12 +53,12 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 }));
 
 export const devices = pgTable("devices", {
-  id: serial("id").primaryKey(),
+  id: serial().primaryKey(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   onlineAt: timestamp("online_at").notNull().defaultNow(),
   userId: integer("user_id").notNull(),
   userAgent: jsonb("user_agent").default({}),
-  token: varchar("token").unique().notNull(),
+  token: varchar().unique().notNull(),
 });
 
 export const devicesRelations = relations(devices, ({ one }) => ({

@@ -1,7 +1,7 @@
 "use client";
 
 import { SubmitButton } from "@/app/_components/submit_button";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import cn from "@/app/(landing)/_components/cn";
 import addRole from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_actions/addRole";
 import { useEffect, useRef } from "react";
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export default function RoleForm({ userId }) {
-  const [state, formAction] = useFormState(addRole, initialState);
+  const [state, formAction] = useActionState(addRole, initialState);
   const formRef = useRef();
 
   useEffect(() => {

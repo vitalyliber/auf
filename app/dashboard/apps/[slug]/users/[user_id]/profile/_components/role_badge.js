@@ -2,7 +2,7 @@
 
 import { confirmAction } from "@/app/_components/utils";
 import removeRole from "@/app/dashboard/apps/[slug]/users/[user_id]/profile/_actions/removeRole";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import cn from "@/app/(landing)/_components/cn";
 import { SubmitButton } from "@/app/_components/submit_button";
 
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export default function RoleBadge({ role, userId }) {
-  const [state, formAction] = useFormState(removeRole, initialState);
+  const [state, formAction] = useActionState(removeRole, initialState);
 
   return (
     <div className="px-3 py-1 bg-black rounded text-white">

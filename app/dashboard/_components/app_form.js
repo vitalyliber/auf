@@ -1,7 +1,7 @@
 "use client";
 
 import PageTitle from "@/app/dashboard/_components/page_title";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { createApp } from "@/app/dashboard/_components/actions";
 import cn from "@/app/(landing)/_components/cn";
 import {SubmitButton} from "@/app/_components/submit_button";
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export default function AppForm() {
-  const [state, formAction] = useFormState(createApp, initialState);
+  const [state, formAction] = useActionState(createApp, initialState);
 
   return (
     <div className="w-full">

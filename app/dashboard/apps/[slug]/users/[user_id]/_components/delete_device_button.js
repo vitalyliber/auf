@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { deleteDeviceAction } from "@/app/dashboard/apps/[slug]/users/[user_id]/_components/actions";
 import { confirmAction } from "@/app/_components/utils";
 import cn from "@/app/(landing)/_components/cn";
@@ -11,7 +11,7 @@ const initialState = {
 };
 
 export default function DeleteDeviceButton({ deviceId, appName, userId }) {
-  const [state, formAction] = useFormState(deleteDeviceAction, initialState);
+  const [state, formAction] = useActionState(deleteDeviceAction, initialState);
 
   return (
     <form action={confirmAction(formAction)}>

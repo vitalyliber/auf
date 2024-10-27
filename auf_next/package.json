@@ -1,6 +1,6 @@
 {
   "name": "auf-next",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "Auth for modern applications",
   "main": "index.js",
   "keywords": [
@@ -12,14 +12,14 @@
   "author": "Vtaly Liber <zenamax@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://auf.casply.com/"
+    "url": "https://github.com/vitalyliber/auf/"
   },
-  "homepage": "https://auf.casply.com/",
+  "homepage": "https://github.com/vitalyliber/auf/tree/main/auf_next/",
   "dependencies": {
-    "jose": "*",
     "@nanostores/react": "*",
-    "nanostores": "*",
-    "fast-deep-equal": "*"
+    "fast-deep-equal": "*",
+    "jose": "*",
+    "nanostores": "*"
   },
   "devDependencies": {}
 }

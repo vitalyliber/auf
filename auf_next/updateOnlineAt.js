@@ -13,7 +13,7 @@ import {
 } from "./actions";
 
 export async function updateOnlineAt() {
-  const cookiesStore = cookies();
+  const cookiesStore = await cookies();
   const token = cookiesStore.get(tokenName)?.value;
 
   // Cache it for 5 minutes

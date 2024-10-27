@@ -5,7 +5,7 @@ import { internalTokenName, tokenName } from "../constants";
 import { verifyJWT } from "../jwt";
 
 export const fetchCurrentUser = async () => {
-  const cookiesStore = cookies();
+  const cookiesStore = await cookies();
 
   const internalToken = cookiesStore.get(internalTokenName)?.value;
   const apiToken = cookiesStore.get(tokenName)?.value;

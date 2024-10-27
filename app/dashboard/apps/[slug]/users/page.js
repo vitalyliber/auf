@@ -11,7 +11,9 @@ export const metadata = {
   title: "Users",
 };
 
-export default async function Dashboard({ params, searchParams }) {
+export default async function Dashboard(props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const currentUser = await fetchCurrentUser();
 
   const door = await db.query.doors.findFirst({

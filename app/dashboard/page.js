@@ -6,7 +6,8 @@ export const metadata = {
   title: "Dashboard | Auf",
 };
 
-export default async function Dashboard({ searchParams }) {
+export default async function Dashboard(props) {
+  const searchParams = await props.searchParams;
   return (
     <Container>
         <Navigation activeCategory="apps" />

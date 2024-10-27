@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { appUrl, tokenName } from "../constants";
 
 export const fetchCurrentUserByJwtTokenViaApi = async () => {
-  const cookiesStore = cookies();
+  const cookiesStore = await cookies();
   const token = cookiesStore.get(tokenName)?.value;
   let user = null;
 

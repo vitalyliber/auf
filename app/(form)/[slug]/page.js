@@ -9,7 +9,8 @@ export const metadata = {
   title: "Sign In",
 };
 
-export default async function LoginPage({ params }) {
+export default async function LoginPage(props) {
+  const params = await props.params;
   let door = await db.query.doors.findFirst({
     where: eq(doors.name, params.slug),
   });

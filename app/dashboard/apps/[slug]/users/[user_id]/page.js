@@ -11,7 +11,8 @@ export const metadata = {
   title: "Sessions",
 };
 
-export default async function DevicesPage({ params }) {
+export default async function DevicesPage(props) {
+  const params = await props.params;
   const currentUser = await fetchCurrentUser();
 
   if (!currentUser?.id) {

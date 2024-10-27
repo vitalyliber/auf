@@ -36,7 +36,7 @@ export async function sendAuthCodeAction(email, appName) {
   const result = await getOrCreateUser(email, appName);
   // @TODO Handle the negative result of operation
   const auth = await createJWT({ code, email, appName });
-  cookies().set({
+  (await cookies()).set({
     name: "auth",
     value: auth,
     maxAge: 10 * 60,
@@ -82,7 +82,7 @@ export async function sendAuthCodeAction(email, appName) {
 }
 
 export async function confirmationAction(code, email, appName) {
-  const auth = cookies().get("auth")?.value;
+  const auth = (await cookies()).get("auth")?.value;
   const {
     code: savedCode,
     email: savedEmail,
@@ -96,7 +96,7 @@ export async function confirmationAction(code, email, appName) {
     const uint32 = crypto.getRandomValues(new Uint32Array(1))[0];
     const tmpToken = uint32.toString(16);
 
-    const reqUserAgent = userAgent({ headers: headers() });
+    const reqUserAgent = userAgent({ headers: await headers() });
 
     const user = await getOrCreateUser(email, appName);
     await db

@@ -14,7 +14,8 @@ export const metadata = {
   title: "User profile",
 };
 
-export default async function UserProfilePage({ params }) {
+export default async function UserProfilePage(props) {
+  const params = await props.params;
   const currentUser = await fetchCurrentUser();
 
   if (!currentUser?.id) {

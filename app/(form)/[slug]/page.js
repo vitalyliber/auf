@@ -11,6 +11,11 @@ export const metadata = {
 
 export default async function LoginPage(props) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
+  const redirect_url = searchParams?.redirect_url;
+  if (!redirect_url) {
+    redirect("/");
+  }
   let door = await db.query.doors.findFirst({
     where: eq(doors.name, params.slug),
   });
@@ -41,7 +46,7 @@ export default async function LoginPage(props) {
           {door.name}
         </h1>
 
-        <Form appName={door.name} />
+        <Form appName={door.name} redirectUrl={redirect_url} />
       </div>
     </div>
   );

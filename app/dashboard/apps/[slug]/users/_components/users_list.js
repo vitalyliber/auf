@@ -62,7 +62,7 @@ export default async function UsersList({
           </span>
         }
       />
-      <form action={searchAction} method="GET">
+      <form action={searchAction}>
         <SearchInput query={query} />
       </form>
 

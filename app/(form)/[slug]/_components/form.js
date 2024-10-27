@@ -1,69 +1,41 @@
 "use client";
 
 import * as EmailValidator from "email-validator";
-import { useDebouncedCallback } from 'use-debounce';
 
 import { useRef, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import useRunOnce from "@/hooks/useRunOnce";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import { confirmationAction, sendAuthCodeAction } from "@/actions";
 import LoginIssues from "@/app/(form)/[slug]/_components/login-issues";
-import { temporaryTokenName } from "@/auf_next";
 import PoweredBy from "@/app/(form)/[slug]/_components/powered-by";
+import { temporaryTokenName } from "@/auf_next";
 
-export default function Form({ appName }) {
-  const router = useRouter();
+export default function Form({ appName, redirectUrl }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState(null);
-  const searchParams = useSearchParams();
+  const [email, setEmail] = useState("");
+  const [codeStep, setCodeStep] = useState(false);
   const emailInput = useRef();
   const codeInput = useRef();
+  const [codeValue, setCodeValue] = useState("");
 
-  const handleLogin = useCallback(
-    async (formData) => {
-      const formDataEmail = formData.get("email")?.toLowerCase?.();
-      if (!EmailValidator.validate(formDataEmail)) {
-        toast.error("Please enter a valid email");
-        return;
-      }
-      try {
-        setIsLoading(true);
-        const formEmail = formDataEmail;
-        const res = await sendAuthCodeAction(formEmail, appName);
-        if (res.status === "success") {
-          setEmail(formEmail);
-        }
-        toast[res.status](res.title);
-        setTimeout(() => codeInput.current?.focus(), 500);
-      } catch {
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [appName],
-  );
+  const handleLogin = async () => {
+    if (isLoading) return;
 
-  const handleConfirmation = async (inputCode) => {
-    const res = await confirmationAction(inputCode, email, appName);
-    if (res.status === "success") {
-      const redirectUrl = searchParams.get("redirect_url");
-      let redirectUrlQuery = "";
-
-      if (searchParams.get("redirect_url")) {
-        redirectUrlQuery = `&redirect_url=${redirectUrl}`;
-      }
-
-      const originUrl = new URL(redirectUrl).origin;
-
-      router.push(
-        `${originUrl}/api/auf?${temporaryTokenName}=${res.tmpToken}${redirectUrlQuery}`,
-      );
-      router.refresh();
+    if (!EmailValidator.validate(email)) {
+      toast.error("Please enter a valid email");
+      return;
     }
-    if (res.status === "error") {
-      toast.error(res.title);
+    try {
+      setIsLoading(true);
+      const res = await sendAuthCodeAction(email, appName);
+      if (res.status === "success") {
+        setCodeStep(true);
+      }
+      toast[res.status](res.title);
+      setTimeout(() => codeInput.current?.focus(), 500);
+    } catch {
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -71,19 +43,32 @@ export default function Form({ appName }) {
     emailInput.current?.focus();
   }, []);
 
-  const debounced = useDebouncedCallback(
-    (value) => {
-      if ((value?.length || 0) === 4) {
-        handleConfirmation(value)
+  const handleConfirmation = async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    const res = await confirmationAction(codeValue, email, appName);
+    if (res.status === "success") {
+      let redirectUrlQuery = "";
+
+      if (redirectUrl) {
+        redirectUrlQuery = `&redirect_url=${redirectUrl}`;
       }
-    },
-    300
-  );
+
+      const originUrl = new URL(redirectUrl).origin;
+
+      window.location.href = `${originUrl}/api/auf?${temporaryTokenName}=${res.tmpToken}${redirectUrlQuery}`;
+    }
+    if (res.status === "error") {
+      toast.error(res.title);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
       <h2 className="mt-4">
-        {email ? (
+        {codeStep ? (
           <span>
             Please enter the{" "}
             <span className="font-bold">confirmation code</span>, that we sent
@@ -94,51 +79,67 @@ export default function Form({ appName }) {
         )}
       </h2>
 
-      <form className="mt-4" action={email ? () => null : handleLogin}>
-        <div className="grid grid-cols-1 gap-4">
-          {!email && (
-            <label className="block">
-              <input
-                ref={emailInput}
-                placeholder="Email"
-                disabled={email}
-                autoComplete="email"
-                name="email"
-                type="email"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
-            </label>
-          )}
+      {!codeStep && (
+        <div className="mt-4 space-y-4">
+          <label className="block">
+            <input
+              onKeyUp={(event) => {
+                if (event.key === "Enter") {
+                  handleLogin();
+                }
+              }}
+              onChange={(e) => setEmail(e.target.value)}
+              ref={emailInput}
+              placeholder="Email"
+              autoComplete="email"
+              name="email"
+              type="email"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+          </label>
 
-          {email && (
-            <label className="block">
-              <input
-                onChange={(e) => debounced(e.target.value)}
-                ref={codeInput}
-                type="tel"
-                pattern="[0-9]*"
-                inputMode="numeric"
-                name="code"
-                placeholder="Code"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
-            </label>
-          )}
-
-          {!email && (
-            <button
-              className="md:p2-4 mt-4 flex w-full items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-2 text-base font-medium text-white no-underline transition-all hover:bg-green-700 md:px-10 md:text-lg"
-              disabled={isLoading}
-              type="submit"
-            >
-              Continue
-            </button>
-          )}
-
-          <LoginIssues />
-          <PoweredBy />
+          <button
+            className="md:p2-4 mt-4 flex w-full items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-2 text-base font-medium text-white no-underline transition-all hover:bg-green-700 md:px-10 md:text-lg disabled:bg-green-400"
+            disabled={isLoading}
+            type="submit"
+            onClick={handleLogin}
+          >
+            Continue
+          </button>
         </div>
-      </form>
+      )}
+
+      {codeStep && (
+        <div className="mt-4 space-y-4">
+          <label className="block">
+            <input
+              onKeyUp={(event) => {
+                if (event.key === "Enter") {
+                  handleConfirmation();
+                }
+              }}
+              onChange={(e) => setCodeValue(e.target.value)}
+              type="tel"
+              pattern="[0-9]*"
+              inputMode="numeric"
+              name="code"
+              placeholder="Code"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+          </label>
+          <button
+            disabled={isLoading}
+            className="md:p2-4 mt-4 flex w-full items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-2 text-base font-medium text-white no-underline transition-all hover:bg-green-700 md:px-10 md:text-lg disabled:bg-green-400"
+            onClick={handleConfirmation}
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+      )}
+
+      <LoginIssues />
+      <PoweredBy />
     </>
   );
 }

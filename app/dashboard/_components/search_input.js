@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function SearchInput({ query }) {
-  const [value, setValue] = useState(query);
+  const [value, setValue] = useState(query || "");
   const handleInputChange = (event) => {
     setValue(event.target.value);
   };

@@ -1,10 +1,5 @@
-import {
-  appUrl,
-  temporaryTokenName,
-} from "./constants";
-import {
-  createJWT,
-} from "./jwt";
+import { appUrl, temporaryTokenName } from "./constants";
+import { createJWT } from "./jwt";
 import {
   fetchCurrentUserByJwtTokenViaApi,
   setApiTokenToCookies,
@@ -14,6 +9,8 @@ import {
 export async function fetchToken(request) {
   const { searchParams } = new URL(request.url);
   const token = searchParams.get(temporaryTokenName);
+
+  if (!token) throw new Error("The tmp token is empty")
 
   if (token) {
     // The client website can't do any database requests
@@ -27,7 +24,10 @@ export async function fetchToken(request) {
     if (response.status === 200) {
       const respJSON = await response.json();
 
+      if (!respJSON?.token) throw new Error("The tmp token is invalid")
+
       if (respJSON?.token) {
+
         await setApiTokenToCookies(respJSON?.token);
         // Fetch current user from the Auf server here (don't use fetch current user method)
         const currentUser = await fetchCurrentUserByJwtTokenViaApi();
@@ -42,6 +42,8 @@ export async function fetchToken(request) {
           return new URL("/", request.url);
         }
       }
+    } else {
+      throw new Error("Error while getting a token")
     }
   }
 }

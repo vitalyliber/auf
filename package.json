@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "devi": "NODE_OPTIONS='--inspect' next dev --turbopack",
     "build": "next build",
     "start": "next start -p 5000",
     "deploy": "git push dokku@49.12.237.84:auf HEAD:main",
